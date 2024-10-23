@@ -1,5 +1,5 @@
 # 🎇 UI-Animation
-Membuat proyek pertama dari mata kuliah grafkom membuat sebuah UI animasi 
+Membuat proyek pertama dari mata kuliah grafkom membuat sebuah UI animasi menggunakan javascript
 - Elmosius Suli 
 - Joshua Subianto
 - Christopher Wijaya
