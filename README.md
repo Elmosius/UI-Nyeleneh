@@ -7,11 +7,11 @@ Membuat proyek pertama dari mata kuliah grafkom membuat sebuah UI animasi menggu
 ## 🎯 Tujuan
 Membuat sebuah UI animasi yang nyeleneh dimana sebenarnya kami diberikan beberapa topik untuk dipilih namun kami mencoba untuk memilih topik yang ini
 
-## 📋 Fungsi Pengguna
-- Coming Soon
-
 ## 📚 Daftar Branch
-- Coming Soon
+- main
+- Elmo
+- Chris
+- Joshu
 
 ## ⚙️ Teknologi yang dipakai
 - Coming Soon
