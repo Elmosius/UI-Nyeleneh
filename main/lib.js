@@ -33,6 +33,16 @@ bunga(xc, yc, radius, kelopak, color) {
         }
     }    
 
+// baris 37-44 menggunakan chat gpt
+kupu_kupu(xc, yc, size, color) {
+    for (let theta = 0; theta < Math.PI * 12; theta += 0.001) {
+        const r = Math.exp(Math.sin(theta)) - 2 * Math.cos(4 * theta) + Math.pow(Math.sin((2 * theta - Math.PI) / 24), 5);
+        const x = xc + size * r * Math.cos(theta);
+        const y = yc - size * r * Math.sin(theta);
+        this.create_dot(Math.ceil(x), Math.ceil(y), color);
+        }
+    }
+
 floodFillStack(image_data, canvas, x0, y0, toFlood, color) {
     var tumpukan = [];
     tumpukan.push({x: x0, y: y0});
@@ -60,5 +70,27 @@ floodFillStack(image_data, canvas, x0, y0, toFlood, color) {
             tumpukan.push({x: titik_sekarang.x, y:titik_sekarang.y-1});
             }
         }
+    }
+
+rotasi(titik_lama, sudut){
+    var x_baru = titik_lama.x * Math.cos(sudut) - titik_lama.y * Math.sin(sudut);
+    var y_baru = titik_lama.x * Math.sin(sudut) + titik_lama.y * Math.cos(sudut);
+    return {x: x_baru, y:y_baru};
+    }
+
+rotasi_fp(titik_lama, titik_putar, sudut){
+    var p1 = this.translasi(titik_lama, {x: -titik_putar.x, y: -titik_putar.y});
+    var p2 = this.rotasi(p1, sudut);
+    var p3 = this.translasi(p2, titik_putar);
+    return p3;
+    }
+
+rotasi_array(array_titik, titik_pusat, sudut){
+    var array_hasil = [];
+    for (var i=0; i<array_titik.length; i++){
+        var temp = this.rotasi_fp(array_titik[i], titik_pusat, sudut);
+        array_hasil.push(temp);
+        }
+    return array_hasil;
     }
 }
