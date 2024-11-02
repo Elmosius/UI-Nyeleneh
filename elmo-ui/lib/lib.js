@@ -18,6 +18,32 @@ export class ImageLib {
     this.image_data.data[index + 3] = 255; // Alpha
   }
 
+  floodFillStack(x0, y0, toFlood, color) {
+    let tumpukan = [];
+    tumpukan.push({ x: x0, y: y0 });
+
+    while (tumpukan.length > 0) {
+      let titik_skrg = tumpukan.pop();
+      let index_skrg = 4 * (titik_skrg.x + titik_skrg.y * this.c_handler.width);
+
+      let r1 = this.image_data.data[index_skrg];
+      let g1 = this.image_data.data[index_skrg + 1];
+      let b1 = this.image_data.data[index_skrg + 2];
+
+      if (r1 === toFlood.r && g1 === toFlood.g && b1 === toFlood.b) {
+        this.image_data.data[index_skrg] = color.r;
+        this.image_data.data[index_skrg + 1] = color.g;
+        this.image_data.data[index_skrg + 2] = color.b;
+        this.image_data.data[index_skrg + 3] = 255;
+
+        tumpukan.push({ x: titik_skrg.x + 1, y: titik_skrg.y });
+        tumpukan.push({ x: titik_skrg.x - 1, y: titik_skrg.y });
+        tumpukan.push({ x: titik_skrg.x, y: titik_skrg.y + 1 });
+        tumpukan.push({ x: titik_skrg.x, y: titik_skrg.y - 1 });
+      }
+    }
+  }
+
   garis(x1, y1, x2, y2, color) {
     let dx = x2 - x1;
     let dy = y2 - y1;

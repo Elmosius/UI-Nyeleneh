@@ -1,9 +1,7 @@
 import { TransformasiMatriks } from "./transformasi.js";
 
 export class IconClose {
-  static draw(canvas, posX = 0, posY = 0, size = 50, border = true, padding = 15) {
-    const color = { r: 0, g: 0, b: 0 };
-    const borderColor = { r: 0, g: 0, b: 0 };
+  static draw(canvas, posX = 0, posY = 0, size = 50, border = true, padding = 15, color = 0, borderColor = 0) {
     const tm = TransformasiMatriks;
 
     const halfSize = (size - padding * 2) / 2;
@@ -37,6 +35,7 @@ export class IconClose {
         const p2 = transformedBoxPoints[i + 1];
         canvas.garis(p1.x, p1.y, p2.x, p2.y, borderColor);
       }
+      canvas.floodFillStack(posX+1, posY=1, { r: 0, g: 0, b: 0 }, borderColor);
     }
 
     canvas.draw();

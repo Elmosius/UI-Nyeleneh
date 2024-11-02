@@ -3,20 +3,23 @@ import { TransformasiMatriks } from "./transformasi.js";
 export class Ketapel {
   static draw(canvas, posX = 0, posY = 0, scale = 1, color = { r: 150, g: 75, b: 0 }) {
     const points = [
-      { x: 0, y: 0 }, // Tengah
-      { x: -10, y: -30 }, // Cabang kiri
-      { x: -20, y: -50 }, // Ujung kiri
-      { x: 0, y: 0 }, // Tengah
-      { x: 10, y: -30 }, // Cabang kanan
-      { x: 20, y: -50 }, // Ujung kanan
-      { x: 0, y: -10 }, // Tengah ke bawah
-      { x: 0, y: 30 }, // Pegangan bawah
+      // Pegangan bawah
+      { x: 0, y: 30 },
+      // Titik tengah 
+      { x: 0, y: 0 },
+      // Ujung kiri
+      { x: -20, y: -50 },
+      // Kembali ke tengah
+      { x: 0, y: 0 },
+      // Ujung kanan
+      { x: 20, y: -50 },
+      // Kembali ke tengah
+      { x: 0, y: 0 },
     ];
 
     const translationMatrix = TransformasiMatriks.createTranslasi(posX, posY);
     const scaleMatrix = TransformasiMatriks.createSkala(scale, scale);
     const transformMatrix = TransformasiMatriks.mutiplyMatrix(translationMatrix, scaleMatrix);
-
     const transformedPoints = TransformasiMatriks.transformasiArray(points, transformMatrix);
 
     for (let i = 0; i < transformedPoints.length - 1; i++) {
@@ -33,6 +36,7 @@ export class Ketapel {
         canvas.titik(Math.round(x), Math.round(y), color);
       }
     }
+
     canvas.draw();
   }
 }
