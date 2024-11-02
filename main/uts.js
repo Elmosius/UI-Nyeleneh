@@ -1,6 +1,6 @@
 import { ImageLib } from "./lib.js";
 
-const lib = new ImageLib('my_canvas')
+const lib = new ImageLib('my_canvas');
 
 // membantu mencari titik koordinat untuk mewarnai
 document.getElementById('my_canvas').addEventListener('dblclick', (e) => {
@@ -11,6 +11,7 @@ document.getElementById('my_canvas').addEventListener('dblclick', (e) => {
     console.log(y);
 });
 
+// buat objek
 // bunga 1
 lib.bunga(90, 150, 70, 2, {r: 155, g: 155, b: 254, a: 255});
 lib.floodFillStack(lib.image_data, lib.canvas_handler, 35, 155, {r: 0, g:0, b:0}, {r: 155, g: 155, b: 254, a: 255});
@@ -44,4 +45,32 @@ lib.floodFillStack(lib.image_data, lib.canvas_handler, 435, 190, {r: 0, g:0, b:0
 lib.floodFillStack(lib.image_data, lib.canvas_handler, 450, 130, {r: 0, g:0, b:0}, {r: 253, g: 234, b: 254, a: 255});
 lib.floodFillStack(lib.image_data, lib.canvas_handler, 450, 180, {r: 0, g:0, b:0}, {r: 253, g: 234, b: 254, a: 255});
 
-lib.draw();
+// mewarnai
+let warnaTerpilih = { r: 255, g: 0, b: 0 };
+
+function ubahWarna(r, g, b) {
+    warnaTerpilih = { r: r, g: g, b: b };
+}
+
+document.getElementById('red').addEventListener('click', () => ubahWarna(255, 0, 0));
+document.getElementById('green').addEventListener('click', () => ubahWarna(0, 128, 0));
+document.getElementById('blue').addEventListener('click', () => ubahWarna(0, 0, 255));
+document.getElementById('yellow').addEventListener('click', () => ubahWarna(255, 255, 0));
+document.getElementById('purple').addEventListener('click', () => ubahWarna(128, 0, 128));
+document.getElementById('cyan').addEventListener('click', () => ubahWarna(0, 255, 255));
+
+document.getElementById('my_canvas').addEventListener('click', (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const index = (Math.round(x) + Math.round(y) * lib.canvas_handler.width) * 4;
+    const toFlood = {
+        r: lib.image_data.data[index],
+        g: lib.image_data.data[index + 1],
+        b: lib.image_data.data[index + 2],
+    };
+
+    lib.floodFillStack(lib.image_data, lib.canvas_handler, Math.round(x), Math.round(y), toFlood, warnaTerpilih);
+    lib.draw(); 
+});
