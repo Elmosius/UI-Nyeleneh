@@ -1,4 +1,4 @@
-import { IconClose } from "../components/icon.js";
+import { IconClose } from "./icon.js";
 
 export class WebTab {
   constructor(canvas, width, height, headerHeight = 32, headerColor = { r: 125, g: 156, b: 166 }, contentColor = { r: 245, g: 245, b: 245 }) {
