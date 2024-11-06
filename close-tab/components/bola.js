@@ -1,15 +1,17 @@
 export class Bola {
-  constructor(canvas, startX, startY, radius = 1, color = { r: 0, g: 0, b: 255 }, ketapel) {
+  constructor(canvas, startX, startY, radius = 1, color = { r: 0, g: 0, b: 255 }, ketapel, targetIcon) {
     this.canvas = canvas;
-    this.ketapel = ketapel; // Tambahkan referensi ke ketapel
+    this.ketapel = ketapel;
     this.x = startX;
     this.y = startY;
     this.radius = radius;
     this.color = color;
     this.vx = 0;
     this.vy = 0;
-    this.gravity = 0.5;
-    this.friction = 0.5;
+    this.gravity = 0.4;
+    this.friction = 0.8;
+    this.targetIcon = targetIcon;
+    this.hasHitTarget = false;
   }
 
   lempar(vx, vy) {
@@ -19,6 +21,8 @@ export class Bola {
   }
 
   update() {
+    if (this.hasHitTarget) return;
+
     const margin = 5;
 
     // Tambahkan gravitasi
@@ -45,8 +49,18 @@ export class Bola {
       this.vy = -this.vy * this.friction;
     }
 
+    // Cek tabrakan dengan target
+    if (this.targetIcon.checkCollision(this)) {
+      console.log("Target Hit!");
+      this.hasHitTarget = true;
+      this.ketapel.endGameWithSuccess();
+      this.canvas.clear();
+      return;
+    }
+
     // Bersihkan dan gambar bola di posisi baru
     this.canvas.clear();
+    this.targetIcon.draw();
     this.ketapel.draw();
     this.canvas.lingkaran_polar(this.x, this.y, this.radius, this.color);
     this.canvas.draw();

@@ -1,5 +1,6 @@
 import { IconClose } from "../components/icon.js";
 import { Ketapel } from "./ketapel.js";
+import { TargetIcon } from "./target_icon.js";
 
 export class WebTab {
   constructor(canvas, width, height, headerHeight = 32, headerColor = { r: 125, g: 156, b: 166 }, contentColor = { r: 245, g: 245, b: 245 }) {
@@ -83,13 +84,15 @@ export class WebTab {
         this.canvas.c_handler.style.cursor = "default";
 
         this.canvas.c_handler.style.transition = "width 0.8s ease-in-out, height 0.8s ease-in-out";
-        this.canvas.c_handler.style.width = "1920px";
-        this.canvas.c_handler.style.height = "1080px";
+        // this.canvas.c_handler.style.width = "1920px";
+        // this.canvas.c_handler.style.height = "1080px";
+
+        const targetIcon = new TargetIcon(this.canvas, this.iconSize - 2, true, this.iconPadding, { r: 255, g: 255, b: 255 }, { r: 255 });
+        targetIcon.draw();
 
         const ketapelPosX = this.width / 4;
         const ketapelPosY = this.height - 30;
-        this.ketapel = new Ketapel(this.canvas, ketapelPosX, ketapelPosY, 1, { r: 150 });
-
+        this.ketapel = new Ketapel(this.canvas, ketapelPosX, ketapelPosY, 1, { r: 150 }, targetIcon);
         this.ketapel.draw();
       }
     });

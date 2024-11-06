@@ -2,13 +2,14 @@ import { TransformasiMatriks } from "./transformasi.js";
 import { Bola } from "./bola.js";
 
 export class Ketapel {
-  constructor(canvas, posX, posY, scale = 1, color = { r: 88, g: 77, b: 78 }) {
+  constructor(canvas, posX, posY, scale = 1, color = { r: 88, g: 77, b: 78 }, targetIcon) {
     this.canvas = canvas;
     this.posX = posX;
     this.posY = posY;
     this.scale = scale;
     this.color = color;
 
+    this.targetIcon = targetIcon;
     this.isDragging = false;
     this.draggedPosition = { x: posX, y: posY };
     this.kesempatan = 3;
@@ -73,7 +74,7 @@ export class Ketapel {
       const initialX = midX;
       const initialY = midY - offset; // Tambahkan offset vertikal untuk memberi jarak dari tali
 
-      this.bola = new Bola(this.canvas, initialX, initialY, 5, { r: 0, g: 0, b: 255 }, this);
+      this.bola = new Bola(this.canvas, initialX, initialY, 5, { r: 0, g: 0, b: 255 }, this, this.targetIcon);
     }
 
     if (this.isDragging) {
@@ -91,7 +92,6 @@ export class Ketapel {
     }
 
     this.bola.draw();
-
     this.canvas.draw();
   }
 
@@ -116,17 +116,30 @@ export class Ketapel {
     }
   }
 
+  endGameWithSuccess() {
+    console.log("Target terkena! Keluar dari permainan.");
+    this.isDragging = false;
+    this.bola = null; // Menghapus bola
+    this.canvas.clear(); // Menghapus semua dari canvas
+  }
+
+  endGameWithFailure() {
+    console.log("Kesempatan habis! Memuat ulang halaman...");
+    location.reload(); // Refresh halaman jika kesempatan habis
+  }
+
   resetBola() {
     if (this.kesempatan > 0) {
       this.kesempatan -= 1;
       const midX = this.posX;
       const midY = this.posY - 30;
 
-      this.bola = new Bola(this.canvas, midX, midY, 5, { r: 0, g: 0, b: 255 }, this);
+      this.bola = new Bola(this.canvas, midX, midY, 5, { r: 0, g: 0, b: 255 }, this, this.targetIcon);
       this.bola.draw();
 
       console.log(`Kesempatan tersisa: ${this.kesempatan}`);
     } else {
+      this.endGameWithFailure();
       console.log("Kesempatan habis!");
     }
   }
@@ -141,15 +154,17 @@ export class Ketapel {
       this.redraw();
     });
 
-    this.canvas.c_handler.addEventListener("mousemove", (e) => {
+    window.addEventListener("mousemove", (e) => {
       if (this.isDragging) {
-        const { offsetX, offsetY } = e;
+        const rect = this.canvas.c_handler.getBoundingClientRect();
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
         this.draggedPosition = { x: offsetX, y: offsetY };
         this.redraw();
       }
     });
 
-    this.canvas.c_handler.addEventListener("mouseup", () => {
+    window.addEventListener("mouseup", () => {
       if (this.isDragging) {
         this.isDragging = false;
 
@@ -186,6 +201,9 @@ export class Ketapel {
   redraw() {
     this.canvas.clear();
     this.draw();
-    if (this.bola) this.bola.draw();
+    if (this.bola) {
+      this.targetIcon.draw();
+      this.bola.draw();
+    }
   }
 }
