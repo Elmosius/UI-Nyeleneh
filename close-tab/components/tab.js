@@ -43,8 +43,6 @@ export class WebTab {
       const orientasi = Math.random() > 0.5 ? "vertikal" : "horizontal";
       return new Tembok(this.canvas, Math.round(posX), Math.round(posY), 50, 150, orientasi);
     });
-
-    this.tembokList.forEach((tembok) => tembok.draw());
   }
 
   drawTab() {
@@ -57,7 +55,7 @@ export class WebTab {
       { x: 0, y: this.headerHeight - 2 },
     ];
 
-    this.gambar();
+    this.gambar("./img/gbr_yt.png", this.width - 20, this.height - this.headerHeight - 20);
     this.canvas.polygon(headerPoints, this.headerColor);
     this.canvas.floodFillStack(5, 5, { r: 0, g: 0, b: 0 }, this.headerColor);
 
@@ -68,17 +66,17 @@ export class WebTab {
     this.canvas.draw();
   }
 
-  gambar() {
+  gambar(path, w, h) {
     const img = new Image();
-    img.src = "./img/gbr_yt.png";
+    img.src = `${path}`;
 
     img.onload = () => {
       console.log("gambar muncul");
       const context = this.canvas.ctx;
       const imageX = 10;
       const imageY = this.headerHeight + 10;
-      const imageWidth = this.width - 20;
-      const imageHeight = this.height - this.headerHeight - 20;
+      const imageWidth = w;
+      const imageHeight = h;
 
       context.drawImage(img, imageX, imageY, imageWidth, imageHeight);
       this.imageLoaded = true;
@@ -87,6 +85,10 @@ export class WebTab {
 
   iconCliked() {
     this.canvas.c_handler.addEventListener("click", (e) => {
+      if (this.isCleared || this.isGameEnded) {
+        this.canvas.clear();
+        return;
+      }
       const mouseX = e.offsetX;
       const mouseY = e.offsetY;
 

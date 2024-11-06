@@ -21,7 +21,7 @@ export class Bola {
   }
 
   update() {
-    if (this.hasHitTarget) return;
+    if (this.hasHitTarget || this.ketapel.isGameEnded) return;
 
     const margin = 5;
 
@@ -51,7 +51,7 @@ export class Bola {
 
     // Cek tabrakan dengan target
     if (this.targetIcon.checkCollision(this)) {
-      console.log("Target Hit!");
+      console.log("Target Kena!");
       this.hasHitTarget = true;
       this.ketapel.endGameWithSuccess();
       this.canvas.clear();

@@ -59,7 +59,10 @@ export class TargetIcon {
     const distanceX = Math.abs(bola.x - this.posX);
     const distanceY = Math.abs(bola.y - this.posY);
 
-    // Cek apakah bola ada di dalam batas target
-    return distanceX <= this.boxHalfSize && distanceY <= this.boxHalfSize;
+    const maxDistance = this.boxHalfSize + bola.radius;
+    if (distanceX <= maxDistance && distanceY <= maxDistance) {
+      return true;
+    }
+    return false;
   }
 }

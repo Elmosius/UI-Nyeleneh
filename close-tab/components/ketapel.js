@@ -11,8 +11,9 @@ export class Ketapel {
     this.tembokList = tembokList;
     this.targetIcon = targetIcon;
     this.isDragging = false;
+    this.isGameEnded = false;
     this.draggedPosition = { x: posX, y: posY };
-    this.kesempatan = 20;
+    this.kesempatan = 3;
     this.tarikTali();
   }
 
@@ -57,7 +58,7 @@ export class Ketapel {
     this.gambarGaris(transformedBatangKiri[0], transformedBatangKiri[1], this.color);
     this.gambarGaris(transformedBatangKanan[0], transformedBatangKanan[1], this.color);
 
-    this.drawFlexibleString(transformedBatangKiri[1], transformedBatangKanan[1], this.draggedPosition, 0, curveDepth);
+    this.gambarTali(transformedBatangKiri[1], transformedBatangKanan[1], this.draggedPosition, 0, curveDepth);
 
     // Posisi awal bola
     if (!this.bola) {
@@ -95,7 +96,7 @@ export class Ketapel {
     this.canvas.draw();
   }
 
-  drawFlexibleString(leftPoint, rightPoint, draggedPoint, color) {
+  gambarTali(leftPoint, rightPoint, draggedPoint, color) {
     for (let t = 0; t <= 1; t += 0.001) {
       const x = (1 - t) * (1 - t) * leftPoint.x + 2 * (1 - t) * t * draggedPoint.x + t * t * rightPoint.x;
       const y = (1 - t) * (1 - t) * leftPoint.y + 2 * (1 - t) * t * draggedPoint.y + t * t * rightPoint.y;
@@ -117,45 +118,51 @@ export class Ketapel {
   }
 
   endGameWithSuccess() {
-    console.log("Target terkena! Keluar dari permainan.");
+    alert("Target terkena! HAHAA SELAMAT YAA!");
+    this.isGameEnded = true;
+    this.bola = null;
     this.isDragging = false;
-    this.bola = null; // Menghapus bola
-    this.canvas.clear(); // Menghapus semua dari canvas
+    this.canvas.clear();
   }
 
   endGameWithFailure() {
-    console.log("Kesempatan habis! Memuat ulang halaman...");
-    location.reload(); // Refresh halaman jika kesempatan habis
+    console.log("Kesempatan habis! COBA LAGII HEHE:)");
+    location.reload();
   }
 
   resetBola() {
-    if (this.kesempatan > 0) {
+    if (this.kesempatan > 0 && !this.isGameEnded) {
       this.kesempatan -= 1;
-      const midX = this.posX;
-      const midY = this.posY - 30;
-
-      this.bola = new Bola(this.canvas, midX, midY, 5, { r: 0, g: 0, b: 255 }, this, this.targetIcon);
-      this.bola.draw();
-
-      console.log(`Kesempatan tersisa: ${this.kesempatan}`);
-    } else {
-      this.endGameWithFailure();
-      console.log("Kesempatan habis!");
+      if (this.kesempatan > 0) {
+        // Pastikan kita membuat bola hanya jika masih ada kesempatan
+        const midX = this.posX;
+        const midY = this.posY - 30;
+        this.bola = new Bola(this.canvas, midX, midY, 5, { r: 0, g: 0, b: 255 }, this, this.targetIcon);
+        this.bola.draw();
+        console.log(`Kesempatan tersisa: ${this.kesempatan}`);
+      } else {
+        setTimeout(() => {
+          this.endGameWithFailure();
+        }, 3000);
+      }
+    } else if (this.kesempatan <= 0) {
+      setTimeout(() => {
+        this.endGameWithFailure();
+      }, 3000);
     }
   }
 
   tarikTali() {
     this.canvas.c_handler.addEventListener("mousedown", (e) => {
-      if (this.kesempatan <= 0) return;
+      if (this.isGameEnded || this.kesempatan <= 0) return;
 
       const { offsetX, offsetY } = e;
       this.isDragging = true;
-      this.draggedPosition = { x: offsetX, y: offsetY }; // Mulai dari posisi mouse
-      this.redraw();
+      this.draggedPosition = { x: offsetX, y: offsetY };
     });
 
     window.addEventListener("mousemove", (e) => {
-      if (this.isDragging) {
+      if (this.isDragging && !this.isGameEnded) {
         const rect = this.canvas.c_handler.getBoundingClientRect();
         const offsetX = e.clientX - rect.left;
         const offsetY = e.clientY - rect.top;
@@ -165,7 +172,7 @@ export class Ketapel {
     });
 
     window.addEventListener("mouseup", () => {
-      if (this.isDragging) {
+      if (this.isDragging && !this.isGameEnded) {
         this.isDragging = false;
 
         // Hitung vektor tarikan
