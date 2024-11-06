@@ -8,8 +8,6 @@ export class TargetIcon {
     this.borderColor = borderColor;
     this.halfSize = (size - padding * 2) / 2;
     this.boxHalfSize = this.halfSize + padding;
-
-    // Inisialisasi posisi dengan metode acak
     this.setRandomPosition();
   }
 

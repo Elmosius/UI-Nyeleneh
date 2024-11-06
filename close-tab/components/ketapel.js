@@ -8,13 +8,11 @@ export class Ketapel {
     this.posY = posY;
     this.scale = scale;
     this.color = color;
-
     this.tembokList = tembokList;
-
     this.targetIcon = targetIcon;
     this.isDragging = false;
     this.draggedPosition = { x: posX, y: posY };
-    this.kesempatan = 3;
+    this.kesempatan = 20;
     this.tarikTali();
   }
 
@@ -181,7 +179,7 @@ export class Ketapel {
         const angle = Math.atan2(dy, dx);
 
         // Skala kecepatan berdasarkan magnitudo, sesuaikan scaleFactor untuk hasil yang diinginkan
-        const scaleFactor = 0.12; // Semakin besar nilainya, semakin cepat bola
+        const scaleFactor = 0.25; // Semakin besar nilainya, semakin cepat bola
         const kecepatanAwal = magnitude * scaleFactor;
 
         // Tentukan komponen horizontal dan vertikal dari kecepatan awal
@@ -204,6 +202,8 @@ export class Ketapel {
     this.canvas.clear();
     this.draw();
     if (this.bola) {
+      this.tembokList.forEach((tembok) => tembok.draw());
+      this.targetIcon.draw();
       this.targetIcon.draw();
       this.bola.draw();
     }

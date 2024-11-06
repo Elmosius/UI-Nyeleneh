@@ -102,11 +102,10 @@ export class WebTab {
         this.canvas.c_handler.style.transition = "width 0.8s ease-in-out, height 0.8s ease-in-out";
         // this.canvas.c_handler.style.width = "1920px";
         // this.canvas.c_handler.style.height = "1080px";
+        this.tembokList.forEach((tembok) => tembok.draw());
 
         const targetIcon = new TargetIcon(this.canvas, this.iconSize - 2, true, this.iconPadding, { r: 255, g: 255, b: 255 }, { r: 255 });
         targetIcon.draw();
-
-        this.tembokList.forEach((tembok) => tembok.draw());
 
         const ketapelPosX = this.width / 4;
         const ketapelPosY = this.height - 30;

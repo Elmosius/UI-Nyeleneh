@@ -8,8 +8,8 @@ export class Bola {
     this.color = color;
     this.vx = 0;
     this.vy = 0;
-    this.gravity = 0.55;
-    this.friction = 0.8;
+    this.grativasi = 0.55;
+    this.pantulan = 0.75;
     this.targetIcon = targetIcon;
     this.hasHitTarget = false;
   }
@@ -26,7 +26,7 @@ export class Bola {
     const margin = 5;
 
     // Tambahkan gravitasi
-    this.vy += this.gravity;
+    this.vy += this.grativasi;
 
     // Update posisi bola
     this.x += this.vx;
@@ -35,18 +35,18 @@ export class Bola {
     // Deteksi tabrakan dengan batas canvas dan pantulkan, tambahkan margin
     if (this.x + this.radius > this.canvas.c_handler.width - margin) {
       this.x = this.canvas.c_handler.width - this.radius - margin;
-      this.vx = -this.vx * this.friction;
+      this.vx = -this.vx * this.pantulan;
     } else if (this.x - this.radius < margin) {
       this.x = this.radius + margin;
-      this.vx = -this.vx * this.friction;
+      this.vx = -this.vx * this.pantulan;
     }
 
     if (this.y + this.radius > this.canvas.c_handler.height - margin) {
       this.y = this.canvas.c_handler.height - this.radius - margin;
-      this.vy = -this.vy * this.friction;
+      this.vy = -this.vy * this.pantulan;
     } else if (this.y - this.radius < margin) {
       this.y = this.radius + margin;
-      this.vy = -this.vy * this.friction;
+      this.vy = -this.vy * this.pantulan;
     }
 
     // Cek tabrakan dengan target
@@ -62,8 +62,8 @@ export class Bola {
     this.ketapel.tembokList = this.ketapel.tembokList.filter((tembok) => {
       if (tembok.checkCollision(this)) {
         // Pantulkan bola saat mengenai tembok
-        this.vx = -this.vx * this.friction;
-        this.vy = -this.vy * this.friction;
+        this.vx = -this.vx * this.pantulan;
+        this.vy = -this.vy * this.pantulan;
         return false; // Menghapus tembok dari daftar
       }
       return true;
@@ -71,9 +71,9 @@ export class Bola {
 
     // Bersihkan dan gambar bola di posisi baru
     this.canvas.clear();
+    this.ketapel.tembokList.forEach((tembok) => tembok.draw());
     this.targetIcon.draw();
     this.ketapel.draw();
-    this.ketapel.tembokList.forEach((tembok) => tembok.draw());
     this.canvas.lingkaran_polar(this.x, this.y, this.radius, this.color);
     this.canvas.draw();
 
