@@ -100,7 +100,7 @@ export class ImageLib {
     let xLast = arr[arr.length - 1].x;
     let yLast = arr[arr.length - 1].y;
 
-    console.info(xFirst, yFirst, xLast, yLast);
+    // console.info(xFirst, yFirst, xLast, yLast);
     this.garis(xFirst, yFirst, xLast, yLast, color);
   }
 

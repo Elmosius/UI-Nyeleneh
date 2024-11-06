@@ -1,6 +1,7 @@
 import { IconClose } from "../components/icon.js";
 import { Ketapel } from "./ketapel.js";
 import { TargetIcon } from "./target_icon.js";
+import { Tembok } from "./tembok.js";
 
 export class WebTab {
   constructor(canvas, width, height, headerHeight = 32, headerColor = { r: 125, g: 156, b: 166 }, contentColor = { r: 245, g: 245, b: 245 }) {
@@ -27,8 +28,23 @@ export class WebTab {
     this.imageLoaded = false;
     this.isCleared = false;
 
+    this.tembokList = [];
+    this.createRandomTembok();
+
     this.iconHovered();
     this.iconCliked();
+  }
+
+  createRandomTembok() {
+    const tembokCount = Math.floor(Math.random() * 3) + 1; // 1-3 tembok
+    this.tembokList = Array.from({ length: tembokCount }, () => {
+      const posX = Math.floor(Math.random() * this.width);
+      const posY = Math.floor((Math.random() * this.height) / 2); // Supaya tidak terlalu ke bawah
+      const orientasi = Math.random() > 0.5 ? "vertikal" : "horizontal";
+      return new Tembok(this.canvas, Math.round(posX), Math.round(posY), 50, 150, orientasi);
+    });
+
+    this.tembokList.forEach((tembok) => tembok.draw());
   }
 
   drawTab() {
@@ -90,9 +106,11 @@ export class WebTab {
         const targetIcon = new TargetIcon(this.canvas, this.iconSize - 2, true, this.iconPadding, { r: 255, g: 255, b: 255 }, { r: 255 });
         targetIcon.draw();
 
+        this.tembokList.forEach((tembok) => tembok.draw());
+
         const ketapelPosX = this.width / 4;
         const ketapelPosY = this.height - 30;
-        this.ketapel = new Ketapel(this.canvas, ketapelPosX, ketapelPosY, 1, { r: 150 }, targetIcon);
+        this.ketapel = new Ketapel(this.canvas, ketapelPosX, ketapelPosY, 1, { r: 150 }, targetIcon, this.tembokList);
         this.ketapel.draw();
       }
     });

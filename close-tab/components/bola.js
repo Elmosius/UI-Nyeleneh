@@ -8,7 +8,7 @@ export class Bola {
     this.color = color;
     this.vx = 0;
     this.vy = 0;
-    this.gravity = 0.4;
+    this.gravity = 0.55;
     this.friction = 0.8;
     this.targetIcon = targetIcon;
     this.hasHitTarget = false;
@@ -58,10 +58,22 @@ export class Bola {
       return;
     }
 
+    // Cek tabrakan dengan setiap tembok dalam tembokList
+    this.ketapel.tembokList = this.ketapel.tembokList.filter((tembok) => {
+      if (tembok.checkCollision(this)) {
+        // Pantulkan bola saat mengenai tembok
+        this.vx = -this.vx * this.friction;
+        this.vy = -this.vy * this.friction;
+        return false; // Menghapus tembok dari daftar
+      }
+      return true;
+    });
+
     // Bersihkan dan gambar bola di posisi baru
     this.canvas.clear();
     this.targetIcon.draw();
     this.ketapel.draw();
+    this.ketapel.tembokList.forEach((tembok) => tembok.draw());
     this.canvas.lingkaran_polar(this.x, this.y, this.radius, this.color);
     this.canvas.draw();
 

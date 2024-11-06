@@ -2,12 +2,14 @@ import { TransformasiMatriks } from "./transformasi.js";
 import { Bola } from "./bola.js";
 
 export class Ketapel {
-  constructor(canvas, posX, posY, scale = 1, color = { r: 88, g: 77, b: 78 }, targetIcon) {
+  constructor(canvas, posX, posY, scale = 1, color = { r: 88, g: 77, b: 78 }, targetIcon, tembokList) {
     this.canvas = canvas;
     this.posX = posX;
     this.posY = posY;
     this.scale = scale;
     this.color = color;
+
+    this.tembokList = tembokList;
 
     this.targetIcon = targetIcon;
     this.isDragging = false;
