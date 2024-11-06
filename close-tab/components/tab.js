@@ -84,10 +84,10 @@ export class WebTab {
 
         // Perbesar ukuran canvas dengan transisi
         this.canvas.c_handler.style.transition = "width 0.8s ease-in-out, height 0.8s ease-in-out";
-        this.canvas.c_handler.style.width = "1500px"; // Atur ukuran sesuai kebutuhan
-        this.canvas.c_handler.style.height = "1000px";
+        this.canvas.c_handler.style.width = "1920px"; // Atur ukuran sesuai kebutuhan
+        this.canvas.c_handler.style.height = "1080px";
 
-        const ketapelPosX = this.width / 2;
+        const ketapelPosX = this.width / 4;
         const ketapelPosY = this.height - 30;
         this.ketapel = new Ketapel(this.canvas, ketapelPosX, ketapelPosY, 1, { r: 150 });
 

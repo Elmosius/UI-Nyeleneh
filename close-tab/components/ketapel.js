@@ -9,66 +9,56 @@ export class Ketapel {
     this.color = color;
 
     this.isDragging = false;
-    this.draggedPosition = { x: posX, y: posY }; // Posisi saat tali ditarik
-    this.initMouseEvents();
+    this.draggedPosition = { x: posX, y: posY };
+    this.tarikTali();
   }
 
-  // Menggambar ketapel utama dengan posisi tali saat ini
   draw(angleLeft = Math.PI / 20, angleRight = -Math.PI / 10, curveDepth = 20) {
     const center = { x: this.posX, y: this.posY };
 
-    // Jika tidak sedang ditarik, maka tali berada di titik pusat ketapel
+    // kalo ga ditarik posisinya ttep
     if (!this.isDragging) {
       this.draggedPosition = { x: this.posX, y: this.posY };
     }
 
-    // Titik-titik untuk pegangan ketapel
-    const handlePoints = [
-      { x: 0, y: 30 }, // Pegangan bawah
-      { x: 0, y: 0 }, // Titik tengah
+    const pegangan = [
+      { x: 0, y: 30 },
+      { x: 0, y: 0 },
     ];
 
-    // Titik-titik untuk batang kiri dan kanan
-    const leftPoints = [
-      { x: 0, y: 0 }, // Titik tengah
-      { x: -20, y: -50 }, // Ujung kiri
+    const batangKiri = [
+      { x: 0, y: 0 },
+      { x: -20, y: -50 },
     ];
 
-    const rightPoints = [
-      { x: 0, y: 0 }, // Titik tengah
-      { x: 20, y: -50 }, // Ujung kanan
+    const batangKanan = [
+      { x: 0, y: 0 },
+      { x: 20, y: -50 },
     ];
 
-    // Matriks transformasi untuk skala dan translasi
     const translationMatrix = TransformasiMatriks.createTranslasi(this.posX, this.posY);
     const scaleMatrix = TransformasiMatriks.createSkala(this.scale, this.scale);
     const transformMatrix = TransformasiMatriks.mutiplyMatrix(translationMatrix, scaleMatrix);
 
-    // Transformasi titik-titik pegangan
-    const transformedHandlePoints = TransformasiMatriks.transformasiArray(handlePoints, transformMatrix);
+    const transformedPegangan = TransformasiMatriks.transformasiArray(pegangan, transformMatrix);
 
-    // Rotasi dan transformasi batang kiri
     const leftRotationMatrix = TransformasiMatriks.rotasiFixPoint(center.x, center.y, angleLeft);
     const leftTransformMatrix = TransformasiMatriks.mutiplyMatrix(leftRotationMatrix, transformMatrix);
-    const transformedLeftPoints = TransformasiMatriks.transformasiArray(leftPoints, leftTransformMatrix);
+    const transformedBatangKiri = TransformasiMatriks.transformasiArray(batangKiri, leftTransformMatrix);
 
-    // Rotasi dan transformasi batang kanan
     const rightRotationMatrix = TransformasiMatriks.rotasiFixPoint(center.x, center.y, angleRight);
     const rightTransformMatrix = TransformasiMatriks.mutiplyMatrix(rightRotationMatrix, transformMatrix);
-    const transformedRightPoints = TransformasiMatriks.transformasiArray(rightPoints, rightTransformMatrix);
+    const transformedBatangKanan = TransformasiMatriks.transformasiArray(batangKanan, rightTransformMatrix);
 
-    // Menggambar pegangan dan batang kiri serta kanan
-    this.drawLineWithSteps(transformedHandlePoints[0], transformedHandlePoints[1], this.color);
-    this.drawLineWithSteps(transformedLeftPoints[0], transformedLeftPoints[1], this.color);
-    this.drawLineWithSteps(transformedRightPoints[0], transformedRightPoints[1], this.color);
+    this.gambarGaris(transformedPegangan[0], transformedPegangan[1], this.color);
+    this.gambarGaris(transformedBatangKiri[0], transformedBatangKiri[1], this.color);
+    this.gambarGaris(transformedBatangKanan[0], transformedBatangKanan[1], this.color);
 
-    // Menggambar tali fleksibel dari ujung batang kiri dan kanan ke titik tarik
-    this.drawFlexibleString(transformedLeftPoints[1], transformedRightPoints[1], this.draggedPosition, this.color, curveDepth);
+    this.drawFlexibleString(transformedBatangKiri[1], transformedBatangKanan[1], this.draggedPosition, this.color, curveDepth);
 
     this.canvas.draw();
   }
 
-  // Fungsi untuk menggambar tali fleksibel
   drawFlexibleString(leftPoint, rightPoint, draggedPoint, color) {
     for (let t = 0; t <= 1; t += 0.001) {
       const x = (1 - t) * (1 - t) * leftPoint.x + 2 * (1 - t) * t * draggedPoint.x + t * t * rightPoint.x;
@@ -77,8 +67,7 @@ export class Ketapel {
     }
   }
 
-  // Fungsi untuk menggambar garis
-  drawLineWithSteps(p1, p2, color) {
+  gambarGaris(p1, p2, color) {
     const dx = p2.x - p1.x;
     const dy = p2.y - p1.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
@@ -91,8 +80,7 @@ export class Ketapel {
     }
   }
 
-  // Event handler untuk mouse agar ketapel bisa ditarik
-  initMouseEvents() {
+  tarikTali() {
     this.canvas.c_handler.addEventListener("mousedown", (e) => {
       const { offsetX, offsetY } = e;
       this.isDragging = true;
@@ -115,7 +103,6 @@ export class Ketapel {
     });
   }
 
-  // Fungsi untuk menggambar ulang ketapel dengan posisi tali baru
   redraw(angleLeft = Math.PI / 20, angleRight = -Math.PI / 10) {
     this.canvas.clear();
     this.draw(angleLeft, angleRight);
