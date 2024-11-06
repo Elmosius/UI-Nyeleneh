@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Canvas Slider with Taskbar Inside -->
     <canvas id="canvas"></canvas>
     
-    <div class="taskbar">
-        <div class="taskbar-icon" id="brightness-icon">☀️</div> 
+    <!-- Taskbar Section -->
+    <div class="taskbar" id="taskbar">
+        <div class="taskbar-icon" id="brightness-icon">☀️</div> <!-- Icon Brightness -->
         <div class="taskbar-icon">🔊</div> <!-- Icon Volume -->
         <div class="taskbar-icon">🛜</div> <!-- Icon Wi-Fi -->
         <div class="taskbar-icon">🔋</div> <!-- Icon Battery -->
@@ -22,15 +24,49 @@
 
     <script type="module">
         import { ImageLib } from './lib.js';
-        
+        import MatrixUtility from './matrix.js'; // Import matrix.js untuk animasi
+
         const canvas = document.getElementById('canvas');
         const brightnessIcon = document.getElementById('brightness-icon');
+        const taskbar = document.getElementById('taskbar');
         const imageLib = new ImageLib('canvas');
 
+        // Toggle canvas visibility and curtain animation on brightness icon click
         brightnessIcon.addEventListener('click', () => {
-            canvas.style.display = canvas.style.display === 'none' ? 'block' : 'none';
+            if (canvas.style.display === 'none' || !canvas.style.display) {
+                canvas.style.display = 'block';
+                animateCurtainOpen();
+            } else {
+                animateCurtainClose();
+            }
         });
 
+        function animateCurtainOpen() {
+            let curtainHeight = canvas.height;
+            const openInterval = setInterval(() => {
+                curtainHeight -= 10;
+                if (curtainHeight <= 0) {
+                    clearInterval(openInterval);
+                } else {
+                    MatrixUtility.applyCurtainEffect(imageLib, curtainHeight); // Gunakan matrix.js untuk animasi
+                }
+            }, 16); // sekitar 60fps
+        }
+
+        function animateCurtainClose() {
+            let curtainHeight = 0;
+            const closeInterval = setInterval(() => {
+                curtainHeight += 10;
+                if (curtainHeight >= canvas.height) {
+                    clearInterval(closeInterval);
+                    canvas.style.display = 'none';
+                } else {
+                    MatrixUtility.applyCurtainEffect(imageLib, curtainHeight); // Gunakan matrix.js untuk animasi
+                }
+            }, 16); // sekitar 60fps
+        }
+
+        // Update waktu dan tanggal secara real-time
         function updateTime() {
             const now = new Date();
             const hours = now.getHours() % 12 || 12;
@@ -44,7 +80,7 @@
         }
         
         setInterval(updateTime, 1000);
-        updateTime(); 
+        updateTime();
     </script>
 </body>
 </html>
