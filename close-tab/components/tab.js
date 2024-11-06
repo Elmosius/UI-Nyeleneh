@@ -25,6 +25,7 @@ export class WebTab {
     this.isHovered = false;
     this.imageLoaded = false;
     this.isCleared = false;
+
     this.iconHovered();
     this.iconCliked();
   }
@@ -38,6 +39,8 @@ export class WebTab {
       { x: this.width, y: this.headerHeight - 2 },
       { x: 0, y: this.headerHeight - 2 },
     ];
+
+    this.gambar();
     this.canvas.polygon(headerPoints, this.headerColor);
     this.canvas.floodFillStack(5, 5, { r: 0, g: 0, b: 0 }, this.headerColor);
 
@@ -46,8 +49,6 @@ export class WebTab {
 
     IconClose.draw(this.canvas, this.iconX, this.iconY, this.iconSize, false, this.iconPadding, 0, 0);
     this.canvas.draw();
-
-    this.gambar();
   }
 
   gambar() {
@@ -81,9 +82,16 @@ export class WebTab {
         this.canvas.clear();
         this.canvas.c_handler.style.cursor = "default";
 
+        // Perbesar ukuran canvas dengan transisi
+        this.canvas.c_handler.style.transition = "width 0.8s ease-in-out, height 0.8s ease-in-out";
+        this.canvas.c_handler.style.width = "1500px"; // Atur ukuran sesuai kebutuhan
+        this.canvas.c_handler.style.height = "1000px";
+
         const ketapelPosX = this.width / 2;
         const ketapelPosY = this.height - 30;
-        Ketapel.draw(this.canvas, ketapelPosX, ketapelPosY);
+        this.ketapel = new Ketapel(this.canvas, ketapelPosX, ketapelPosY, 1, { r: 150 });
+
+        this.ketapel.draw();
       }
     });
   }
