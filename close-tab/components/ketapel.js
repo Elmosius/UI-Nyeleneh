@@ -1,7 +1,8 @@
 import { TransformasiMatriks } from "./transformasi.js";
+import { Bola } from "./bola.js";
 
 export class Ketapel {
-  constructor(canvas, posX, posY, scale = 1, color = { r: 150, g: 75, b: 0 }) {
+  constructor(canvas, posX, posY, scale = 1, color = { r: 88, g: 77, b: 78 }) {
     this.canvas = canvas;
     this.posX = posX;
     this.posY = posY;
@@ -54,7 +55,41 @@ export class Ketapel {
     this.gambarGaris(transformedBatangKiri[0], transformedBatangKiri[1], this.color);
     this.gambarGaris(transformedBatangKanan[0], transformedBatangKanan[1], this.color);
 
-    this.drawFlexibleString(transformedBatangKiri[1], transformedBatangKanan[1], this.draggedPosition, this.color, curveDepth);
+    this.drawFlexibleString(transformedBatangKiri[1], transformedBatangKanan[1], this.draggedPosition, 0, curveDepth);
+
+    // Posisi awal bola
+    if (!this.bola) {
+      const leftPoint = transformedBatangKiri[1];
+      const rightPoint = transformedBatangKanan[1];
+      const draggedPoint = this.draggedPosition;
+      const offset = 10; // Jarak kecil dari tali, bisa disesuaikan
+
+      // Menggunakan nilai t = 0.5 untuk menempatkan bola di tengah tali fleksibel (Bezier curve)
+      const midX = (1 - 0.5) * (1 - 0.5) * leftPoint.x + 2 * (1 - 0.5) * 0.5 * draggedPoint.x + 0.5 * 0.5 * rightPoint.x;
+      const midY = (1 - 0.5) * (1 - 0.5) * leftPoint.y + 2 * (1 - 0.5) * 0.5 * draggedPoint.y + 0.5 * 0.5 * rightPoint.y;
+
+      // Menambahkan offset pada posisi bola
+      const initialX = midX;
+      const initialY = midY - offset; // Tambahkan offset vertikal untuk memberi jarak dari tali
+
+      this.bola = new Bola(this.canvas, initialX, initialY, 5, { r: 0, g: 0, b: 255 });
+    }
+
+    if (this.isDragging) {
+      const leftPoint = transformedBatangKiri[1];
+      const rightPoint = transformedBatangKanan[1];
+      const draggedPoint = this.draggedPosition;
+
+      // Tetap gunakan `t = 0.5` untuk memastikan bola berada di tengah tali
+      const t = 0.4;
+      const bolaX = (1 - t) * (1 - t) * leftPoint.x + 2 * (1 - t) * t * draggedPoint.x + t * t * rightPoint.x;
+      const bolaY = (1 - t) * (1 - t) * leftPoint.y + 2 * (1 - t) * t * draggedPoint.y + t * t * rightPoint.y;
+
+      this.bola.x = bolaX;
+      this.bola.y = bolaY;
+    }
+
+    this.bola.draw();
 
     this.canvas.draw();
   }

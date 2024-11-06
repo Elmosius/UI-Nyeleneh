@@ -113,6 +113,17 @@ export class ImageLib {
     }
   }
 
+  lingkaranIsi(xc, yc, radius, color) {
+    for (let theta = 0; theta < Math.PI * 2; theta += 0.01) {
+      let x = xc + radius * Math.cos(theta);
+      let y = yc + radius * Math.sin(theta);
+
+      this.titik(Math.round(x), Math.round(y), color);
+    }
+
+    this.floodFillStack(xc, yc, { r: 0, g: 0, b: 0 }, color);
+  }
+
   tulisan(ukuran, font, warna, tulisan, koordinat) {
     this.ctx.font = `${ukuran}px ${font}`;
     this.ctx.fillStyle = `${warna}`;
