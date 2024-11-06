@@ -26,19 +26,31 @@ document.getElementById('cyan').addEventListener('click', () => ubahWarna(0, 255
 
 // Fungsi untuk menembakkan peluru
 function tembakPeluru(targetX, targetY) {
-    let peluruY = lib.canvas_handler.height - 10; // Titik awal peluru di bawah
-    const peluruX = lib.canvas_handler.width / 2;
+    let peluruX = lib.canvas_handler.width / 2; // Titik awal peluru di tengah bawah
+    let peluruY = lib.canvas_handler.height - 10;
+
+    // Menghitung kecepatan peluru agar bergerak langsung ke target
+    const deltaX = targetX - peluruX;
+    const deltaY = targetY - peluruY;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const speed = 5; // Kecepatan peluru
+    const moveX = (deltaX / distance) * speed;
+    const moveY = (deltaY / distance) * speed;
 
     function animasiPeluru() {
+        // Membersihkan seluruh canvas dan menggambar ulang objek statis
         lib.context.clearRect(0, 0, lib.canvas_handler.width, lib.canvas_handler.height);
-        lib.draw();
-        lib.lingkaran_polar(peluruX, peluruY, 5, warnaTerpilih); // Menggambar peluru
+        
+        // Menggambar objek bunga dan kupu-kupu
+        lib.bunga(posisiBunga.x, posisiBunga.y, posisiBunga.radius, posisiBunga.kelopak, posisiBunga.color);
+        lib.kupu_kupu(posisiKupuKupu.x, posisiKupuKupu.y, posisiKupuKupu.size, posisiKupuKupu.color);
 
-        if (peluruY > targetY) {
-            peluruY -= 5; // Menggerakkan peluru ke atas
-            requestAnimationFrame(animasiPeluru);
-        } else {
-            // Setelah mencapai target, lakukan pewarnaan pada objek tertentu
+        // Menggambar peluru di posisi baru
+        lib.lingkaran_polar(peluruX, peluruY, 5, warnaTerpilih);
+
+        // Mengecek jika peluru sudah mencapai target atau melewati target
+        if (Math.abs(targetX - peluruX) <= Math.abs(moveX) && Math.abs(targetY - peluruY) <= Math.abs(moveY)) {
+            // Pewarnaan objek setelah mencapai target
             if (
                 Math.abs(targetX - posisiBunga.x) <= posisiBunga.radius &&
                 Math.abs(targetY - posisiBunga.y) <= posisiBunga.radius
@@ -53,6 +65,11 @@ function tembakPeluru(targetX, targetY) {
                 lib.floodFillStack(lib.image_data, lib.canvas_handler, posisiKupuKupu.x, posisiKupuKupu.y, posisiKupuKupu.color, warnaTerpilih);
             }
             lib.draw();
+        } else {
+            // Memperbarui posisi peluru
+            peluruX += moveX;
+            peluruY += moveY;
+            requestAnimationFrame(animasiPeluru);
         }
     }
 
