@@ -11,6 +11,7 @@ export class Ketapel {
 
     this.isDragging = false;
     this.draggedPosition = { x: posX, y: posY };
+    this.kesempatan = 3;
     this.tarikTali();
   }
 
@@ -115,8 +116,25 @@ export class Ketapel {
     }
   }
 
+  resetBola() {
+    if (this.kesempatan > 0) {
+      this.kesempatan -= 1;
+      const midX = this.posX;
+      const midY = this.posY - 30;
+
+      this.bola = new Bola(this.canvas, midX, midY, 5, { r: 0, g: 0, b: 255 }, this);
+      this.bola.draw();
+
+      console.log(`Kesempatan tersisa: ${this.kesempatan}`);
+    } else {
+      console.log("Kesempatan habis!");
+    }
+  }
+
   tarikTali() {
     this.canvas.c_handler.addEventListener("mousedown", (e) => {
+      if (this.kesempatan <= 0) return;
+
       const { offsetX, offsetY } = e;
       this.isDragging = true;
       this.draggedPosition = { x: offsetX, y: offsetY }; // Mulai dari posisi mouse
@@ -135,16 +153,28 @@ export class Ketapel {
       if (this.isDragging) {
         this.isDragging = false;
 
-        // Hitung kecepatan awal berdasarkan posisi terakhir bola dan posisi tengah tali
-        const dx = this.draggedPosition.x - this.posX;
-        const dy = this.draggedPosition.y - this.posY;
-        const kecepatanAwalX = dx * 0.2; // Faktor skala kecepatan
-        const kecepatanAwalY = dy * 0.2;
+        // Hitung vektor tarikan
+        const dx = this.posX - this.draggedPosition.x;
+        const dy = this.posY - this.draggedPosition.y;
 
-        // Lempar bola dengan kecepatan awal
+        // Hitung magnitudo (jarak tarikan) untuk menentukan kekuatan
+        const magnitude = Math.sqrt(dx * dx + dy * dy);
+
+        // Tentukan sudut lemparan menggunakan atan2
+        const angle = Math.atan2(dy, dx);
+
+        // Skala kecepatan berdasarkan magnitudo, sesuaikan scaleFactor untuk hasil yang diinginkan
+        const scaleFactor = 0.12; // Semakin besar nilainya, semakin cepat bola
+        const kecepatanAwal = magnitude * scaleFactor;
+
+        // Tentukan komponen horizontal dan vertikal dari kecepatan awal
+        const kecepatanAwalX = kecepatanAwal * Math.cos(angle);
+        const kecepatanAwalY = kecepatanAwal * Math.sin(angle);
+
+        // Lempar bola dengan kecepatan awal yang sesuai arah tarikan
         this.bola.lempar(kecepatanAwalX, kecepatanAwalY);
+        this.resetBola();
       }
-
       // Kembali ke posisi semula
       this.draggedPosition = { x: this.posX, y: this.posY };
 
@@ -153,7 +183,7 @@ export class Ketapel {
     });
   }
 
-  redraw(angleLeft = Math.PI / 20, angleRight = -Math.PI / 10) {
+  redraw() {
     this.canvas.clear();
     this.draw();
     if (this.bola) this.bola.draw();

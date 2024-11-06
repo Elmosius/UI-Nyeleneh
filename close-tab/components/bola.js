@@ -9,7 +9,7 @@ export class Bola {
     this.vx = 0;
     this.vy = 0;
     this.gravity = 0.5;
-    this.friction = 0.9;
+    this.friction = 0.5;
   }
 
   lempar(vx, vy) {
@@ -19,31 +19,39 @@ export class Bola {
   }
 
   update() {
+    const margin = 5;
+
+    // Tambahkan gravitasi
     this.vy += this.gravity;
+
+    // Update posisi bola
     this.x += this.vx;
     this.y += this.vy;
 
-    if (this.x + this.radius > this.canvas.c_handler.width) {
-      this.x = this.canvas.c_handler.width - this.radius;
+    // Deteksi tabrakan dengan batas canvas dan pantulkan, tambahkan margin
+    if (this.x + this.radius > this.canvas.c_handler.width - margin) {
+      this.x = this.canvas.c_handler.width - this.radius - margin;
       this.vx = -this.vx * this.friction;
-    } else if (this.x - this.radius < 0) {
-      this.x = this.radius;
+    } else if (this.x - this.radius < margin) {
+      this.x = this.radius + margin;
       this.vx = -this.vx * this.friction;
     }
 
-    if (this.y + this.radius > this.canvas.c_handler.height) {
-      this.y = this.canvas.c_handler.height - this.radius;
+    if (this.y + this.radius > this.canvas.c_handler.height - margin) {
+      this.y = this.canvas.c_handler.height - this.radius - margin;
       this.vy = -this.vy * this.friction;
-    } else if (this.y - this.radius < 0) {
-      this.y = this.radius;
+    } else if (this.y - this.radius < margin) {
+      this.y = this.radius + margin;
       this.vy = -this.vy * this.friction;
     }
 
+    // Bersihkan dan gambar bola di posisi baru
     this.canvas.clear();
-    this.ketapel.draw(); // Panggil untuk menggambar ulang ketapel
-    this.canvas.lingkaranIsi(this.x, this.y, this.radius, this.color);
+    this.ketapel.draw();
+    this.canvas.lingkaran_polar(this.x, this.y, this.radius, this.color);
     this.canvas.draw();
 
+    // Lanjutkan animasi bola dengan requestAnimationFrame
     requestAnimationFrame(() => this.update());
   }
 
