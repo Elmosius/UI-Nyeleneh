@@ -72,7 +72,7 @@ export class Ketapel {
       const initialX = midX;
       const initialY = midY - offset; // Tambahkan offset vertikal untuk memberi jarak dari tali
 
-      this.bola = new Bola(this.canvas, initialX, initialY, 5, { r: 0, g: 0, b: 255 });
+      this.bola = new Bola(this.canvas, initialX, initialY, 5, { r: 0, g: 0, b: 255 }, this);
     }
 
     if (this.isDragging) {
@@ -132,14 +132,30 @@ export class Ketapel {
     });
 
     this.canvas.c_handler.addEventListener("mouseup", () => {
-      this.isDragging = false;
-      this.draggedPosition = { x: this.posX, y: this.posY }; // Kembali ke posisi semula
+      if (this.isDragging) {
+        this.isDragging = false;
+
+        // Hitung kecepatan awal berdasarkan posisi terakhir bola dan posisi tengah tali
+        const dx = this.draggedPosition.x - this.posX;
+        const dy = this.draggedPosition.y - this.posY;
+        const kecepatanAwalX = dx * 0.2; // Faktor skala kecepatan
+        const kecepatanAwalY = dy * 0.2;
+
+        // Lempar bola dengan kecepatan awal
+        this.bola.lempar(kecepatanAwalX, kecepatanAwalY);
+      }
+
+      // Kembali ke posisi semula
+      this.draggedPosition = { x: this.posX, y: this.posY };
+
+      // Gambar ulang ketapel tanpa bola
       this.redraw();
     });
   }
 
   redraw(angleLeft = Math.PI / 20, angleRight = -Math.PI / 10) {
     this.canvas.clear();
-    this.draw(angleLeft, angleRight);
+    this.draw();
+    if (this.bola) this.bola.draw();
   }
 }
