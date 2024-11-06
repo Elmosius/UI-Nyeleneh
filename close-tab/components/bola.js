@@ -6,6 +6,11 @@ export class Bola {
     this.y = startY;
     this.radius = radius;
     this.color = color;
+
+    // MEMAKAI BANTUAN CHATGPT //
+    // Untuk membuuat bola bergerak dengan kecepatan awal dan gravitasi serta pantulan saat menabrak dinding,
+    // serta mengecek tabrakan dengan target dan tembok yang ada
+
     this.vx = 0;
     this.vy = 0;
     this.grativasi = 0.55;
@@ -58,18 +63,17 @@ export class Bola {
       return;
     }
 
-    // Cek tabrakan dengan setiap tembok dalam tembokList
+    // Cek tabrakan kalau kena si tembok
     this.ketapel.tembokList = this.ketapel.tembokList.filter((tembok) => {
       if (tembok.checkCollision(this)) {
-        // Pantulkan bola saat mengenai tembok
         this.vx = -this.vx * this.pantulan;
         this.vy = -this.vy * this.pantulan;
-        return false; // Menghapus tembok dari daftar
+        return false;
       }
       return true;
     });
 
-    // Bersihkan dan gambar bola di posisi baru
+    // gambar bola posisi baru
     this.canvas.clear();
     this.ketapel.tembokList.forEach((tembok) => tembok.draw());
     this.targetIcon.draw();
@@ -77,7 +81,6 @@ export class Bola {
     this.canvas.lingkaran_polar(this.x, this.y, this.radius, this.color);
     this.canvas.draw();
 
-    // Lanjutkan animasi bola dengan requestAnimationFrame
     requestAnimationFrame(() => this.update());
   }
 

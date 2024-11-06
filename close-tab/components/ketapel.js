@@ -57,9 +57,10 @@ export class Ketapel {
     this.gambarGaris(transformedPegangan[0], transformedPegangan[1], this.color);
     this.gambarGaris(transformedBatangKiri[0], transformedBatangKiri[1], this.color);
     this.gambarGaris(transformedBatangKanan[0], transformedBatangKanan[1], this.color);
-
     this.gambarTali(transformedBatangKiri[1], transformedBatangKanan[1], this.draggedPosition, 0, curveDepth);
 
+    // MEMAKAI BANTUAN CHATGPT //
+    // Untuk menempelkan bola ke tali (menggunakan persamaan Bezier Curve untuk menentukan posisi bola di tali)
     // Posisi awal bola
     if (!this.bola) {
       const leftPoint = transformedBatangKiri[1];
@@ -171,6 +172,8 @@ export class Ketapel {
       }
     });
 
+    // MENGGUNAKAN BANTUAN CHATGPT //
+    // Untuk melempar bola ketika mouseup menggunakan vektor parabola
     window.addEventListener("mouseup", () => {
       if (this.isDragging && !this.isGameEnded) {
         this.isDragging = false;

@@ -35,6 +35,9 @@ export class WebTab {
     this.iconCliked();
   }
 
+  // MEMAKAI BANTUAN CHATGPT //
+  // Untuk membuatkan ide menggenerate tembok secara acak di dalam array yang isinya random jumlah tembok, posisi, 
+  // dan orientasi
   createRandomTembok() {
     const tembokCount = Math.floor(Math.random() * 3) + 1; // 1-3 tembok
     this.tembokList = Array.from({ length: tembokCount }, () => {

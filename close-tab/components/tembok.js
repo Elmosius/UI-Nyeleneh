@@ -4,8 +4,8 @@ export class Tembok {
     this.posX = posX;
     this.posY = posY;
     this.panjang = Math.floor(Math.random() * (maxPanjang - minPanjang + 1)) + minPanjang; // Panjang acak
-    this.tebal = 10; // Ketebalan tetap
-    this.orientasi = orientasi; // "vertikal" atau "horizontal"
+    this.tebal = 10;
+    this.orientasi = orientasi;
     this.color = color;
 
     // Tentukan posisi akhir berdasarkan orientasi
