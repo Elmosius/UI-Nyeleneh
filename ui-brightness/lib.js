@@ -8,9 +8,19 @@ export class ImageLib {
         this.imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
         
         this.controlCurtain();
-        this.drawCurtain(); // Pastikan ini memanggil fungsi yang ada
+        this.drawCurtain(); 
     }
 
+    // fungsi untuk menggambar titik
+    drawDot(imageData, x, y, color) {
+        const index = (x + y * imageData.width) * 4;
+        imageData.data[index] = color.r;
+        imageData.data[index + 1] = color.g;
+        imageData.data[index + 2] = color.b;
+        imageData.data[index + 3] = color.a;
+    }
+    
+    // untuk mengontrol curtainnya
     controlCurtain() {
         this.canvas.addEventListener("mousedown", (e) => {
             this.isDragging = true;
@@ -30,10 +40,11 @@ export class ImageLib {
         });
     }
 
+    // fungsi untuk menggambar curtain
     drawCurtain() {
-        // Jika curtainHeight sudah mencapai 0, sembunyikan canvas dan set brightness latar belakang ke paling terang
+        // untuk menyembunyikan brightness curtail
         if (this.curtainHeight <= 0) {
-            document.body.style.backgroundColor = `rgb(255, 255, 255)`; // Warna putih penuh untuk latar belakang
+            document.body.style.backgroundColor = `rgb(255, 255, 255)`;
             this.canvas.style.display = 'none';
             return;
         }
@@ -41,34 +52,34 @@ export class ImageLib {
         const brightness = (this.curtainHeight / this.canvas.height);
         const brightnessColor = { r: 0, g: 0, b: 0, a: Math.floor(brightness * 255) };
     
-        // Mengatur warna latar belakang sesuai dengan nilai brightness
-        const bgBrightness = 255 * (1 - brightness); // Semakin kecil brightness, semakin gelap latar belakang
+        // menyesuaikan background dengan warna brightness
+        const bgBrightness = 255 * (1 - brightness); 
         document.body.style.backgroundColor = `rgb(${bgBrightness}, ${bgBrightness}, ${bgBrightness})`;
     
-        // Mengisi latar belakang dengan brightness layer
+        // membuat latar belakang dengan brightness layer
         for (let y = 0; y < this.canvas.height; y++) {
             for (let x = 0; x < this.canvas.width; x++) {
                 this.drawDot(this.imageData, x, y, brightnessColor);
             }
         }
     
-        const curtainColor = { r: 51, g: 51, b: 51, a: 255 }; // Warna utama curtain
-        const separatorColor = { r: 0, g: 0, b: 0, a: 255 }; // Warna solid hitam untuk garis pemisah
-        const layer = 8; // Kurangi jumlah layer agar garis pemisah lebih jelas
-        const layerHeight = Math.floor(this.curtainHeight / layer); // Tinggi setiap layer
+        const curtainColor = { r: 51, g: 51, b: 51, a: 255 }; 
+        const separatorColor = { r: 0, g: 0, b: 0, a: 255 };
+        const layer = 8; 
+        const layerHeight = Math.floor(this.curtainHeight / layer);
     
         for (let i = 0; i < layer; i++) {
             let top = i * layerHeight;
     
-            // Menggambar setiap layer curtain
-            for (let y = top; y < top + layerHeight - 1; y++) { // Kurangi 1 piksel di atas garis pemisah
+            // membuat setiap layer curtain
+            for (let y = top; y < top + layerHeight - 1; y++) { 
                 for (let x = 0; x < this.canvas.width; x++) {
                     this.drawDot(this.imageData, x, y, curtainColor);
                 }
             }
             
-            // Menggambar garis pemisah di bawah setiap layer
-            let separatorY = top + layerHeight - 1; // Tempatkan di posisi yang lebih jelas
+            // membuat garis pemisah untuk memberikan jarak antara layer
+            let separatorY = top + layerHeight - 1; 
             if (separatorY < this.curtainHeight) {
                 for (let x = 0; x < this.canvas.width; x++) {
                     this.drawDot(this.imageData, x, separatorY, separatorColor);
@@ -76,17 +87,9 @@ export class ImageLib {
             }
         }
     
-        // Menampilkan hasil di canvas
         this.ctx.putImageData(this.imageData, 0, 0);
     
-        // Lanjutkan animasi selama curtainHeight belum mencapai 0 atau penuh
+        // melanjutkan animasi selama curtainnya belom mentok
         requestAnimationFrame(() => this.drawCurtain());
-    }
-    drawDot(imageData, x, y, color) {
-        const index = (x + y * imageData.width) * 4;
-        imageData.data[index] = color.r;
-        imageData.data[index + 1] = color.g;
-        imageData.data[index + 2] = color.b;
-        imageData.data[index + 3] = color.a;
     }
 }

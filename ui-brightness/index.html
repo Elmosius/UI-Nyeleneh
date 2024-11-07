@@ -7,15 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Canvas Slider with Taskbar Inside -->
     <canvas id="canvas"></canvas>
-    
-    <!-- Taskbar Section -->
+
     <div class="taskbar" id="taskbar">
-        <div class="taskbar-icon" id="brightness-icon">☀️</div> <!-- Icon Brightness -->
-        <div class="taskbar-icon">🔊</div> <!-- Icon Volume -->
-        <div class="taskbar-icon">🛜</div> <!-- Icon Wi-Fi -->
-        <div class="taskbar-icon">🔋</div> <!-- Icon Battery -->
+        <div class="taskbar-icon" id="brightness-icon">☀️</div> 
+        <div class="taskbar-icon">🔊</div> 
+        <div class="taskbar-icon">🛜</div> 
+        <div class="taskbar-icon">🔋</div> 
         <div class="taskbar-time">
             <div class="time" id="time">12:30 PM</div>
             <div class="date" id="date">11/01/2024</div>
@@ -24,14 +22,14 @@
 
     <script type="module">
         import { ImageLib } from './lib.js';
-        import MatrixUtility from './matrix.js'; // Import matrix.js untuk animasi
+        import MatrixUtility from './matrix.js';
 
         const canvas = document.getElementById('canvas');
         const brightnessIcon = document.getElementById('brightness-icon');
         const taskbar = document.getElementById('taskbar');
         const imageLib = new ImageLib('canvas');
 
-        // Toggle canvas visibility and curtain animation on brightness icon click
+        // perintah untuk ketika klik iconnya maka akan memunculkan curtain brightness dan akan otomatis ada animasi naik dan turunnya
         brightnessIcon.addEventListener('click', () => {
             if (canvas.style.display === 'none' || !canvas.style.display) {
                 canvas.style.display = 'block';
@@ -41,6 +39,8 @@
             }
         });
 
+        // fungsi animasi ketika curtain brightness dibuka
+
         function animateCurtainOpen() {
             let curtainHeight = canvas.height;
             const openInterval = setInterval(() => {
@@ -48,11 +48,12 @@
                 if (curtainHeight <= 0) {
                     clearInterval(openInterval);
                 } else {
-                    MatrixUtility.applyCurtainEffect(imageLib, curtainHeight); // Gunakan matrix.js untuk animasi
+                    MatrixUtility.applyCurtainEffect(imageLib, curtainHeight); 
                 }
-            }, 16); // sekitar 60fps
+            }, 16); 
         }
-
+        
+        // fungsi animasi ketika curtain brightness ditutup
         function animateCurtainClose() {
             let curtainHeight = 0;
             const closeInterval = setInterval(() => {
@@ -61,12 +62,12 @@
                     clearInterval(closeInterval);
                     canvas.style.display = 'none';
                 } else {
-                    MatrixUtility.applyCurtainEffect(imageLib, curtainHeight); // Gunakan matrix.js untuk animasi
+                    MatrixUtility.applyCurtainEffect(imageLib, curtainHeight);
                 }
-            }, 16); // sekitar 60fps
+            }, 16);
         }
 
-        // Update waktu dan tanggal secara real-time
+        // mengatur waktu agar sesuai dengan real time
         function updateTime() {
             const now = new Date();
             const hours = now.getHours() % 12 || 12;
