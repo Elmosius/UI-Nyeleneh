@@ -3,7 +3,7 @@ export class Tembok {
     this.canvas = canvas;
     this.posX = posX;
     this.posY = posY;
-    this.panjang = Math.floor(Math.random() * (maxPanjang - minPanjang + 1)) + minPanjang; // Panjang acak
+    this.panjang = Math.floor(Math.random() * (maxPanjang - minPanjang + 1)) + minPanjang;
     this.tebal = 10;
     this.orientasi = orientasi;
     this.color = color;
