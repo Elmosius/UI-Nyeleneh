@@ -96,13 +96,13 @@ lingkaran_warna(xc, yc, radius, color) {
         };
     
         const animate = () => {
-            // Bersihkan seluruh canvas setiap frame
+            // Langkah 1: Bersihkan seluruh canvas setiap frame untuk menghapus jejak peluru
             this.context.clearRect(0, 0, this.canvas_handler.width, this.canvas_handler.height);
     
-            // Gambar ulang image_data untuk mempertahankan pewarnaan tetap
+            // Langkah 2: Gambar ulang image_data tanpa peluru untuk mempertahankan pewarnaan tetap
             this.context.putImageData(this.image_data, 0, 0);
     
-            // Gambar objek bunga dan kupu-kupu di setiap frame
+            // Langkah 3: Gambar objek tetap seperti bunga dan kupu-kupu
             this.bunga(150, 200, 70, 8, { r: 233, g: 216, b: 254, a: 255 });
             this.kupu_kupu(300, 100, 20, { r: 0, g: 255, b: 0 });
     
@@ -111,16 +111,16 @@ lingkaran_warna(xc, yc, radius, color) {
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     
             if (distance > 1) {
-                // Update posisi peluru tanpa menyimpan ke image_data
+                // Langkah 4: Update posisi peluru tanpa menyimpan ke image_data
                 circle.dx = (deltaX / distance) * speed;
                 circle.dy = (deltaY / distance) * speed;
                 circle.x += circle.dx;
                 circle.y += circle.dy;
     
-                // Gambar peluru sementara menggunakan lingkaran_warna
+                // Langkah 5: Gambar peluru sementara di posisi baru menggunakan lingkaran_warna
                 this.lingkaran_warna(circle.x, circle.y, circle.radius, circle.color);
             } else {
-                // Ketika peluru mencapai target, warnai area target menggunakan floodFillStack
+                // Langkah 6: Ketika peluru mencapai target, warnai area target menggunakan floodFillStack
                 this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y), { r: 0, g: 0, b: 0 }, circle.color);
     
                 // Tampilkan pewarnaan area yang baru di canvas
@@ -128,11 +128,12 @@ lingkaran_warna(xc, yc, radius, color) {
                 return; // Hentikan animasi setelah pewarnaan
             }
     
-            // Minta frame berikutnya untuk animasi peluru
+            // Lanjutkan ke frame berikutnya untuk animasi
             requestAnimationFrame(animate);
         };
     
         animate();
     }
     
+         
 }

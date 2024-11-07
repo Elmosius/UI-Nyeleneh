@@ -20,6 +20,7 @@ document.getElementById('purple').addEventListener('click', () => ubahWarna(128,
 document.getElementById('cyan').addEventListener('click', () => ubahWarna(0, 255, 255));
 
 function peluru_warna(targetX, targetY) {
+    lib.clear_canvas();
     lib.lingkaran_bergerak(targetX, targetY, warnaTerpilih);
 }
 
