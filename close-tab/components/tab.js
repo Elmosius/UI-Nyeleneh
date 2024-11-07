@@ -53,7 +53,7 @@ export class WebTab {
       const posX = Math.floor(Math.random() * this.width);
       const posY = Math.floor((Math.random() * this.height) / 2);
       const orientasi = Math.random() > 0.5 ? "vertikal" : "horizontal";
-      return new Tembok(this.canvas, Math.round(posX), Math.round(posY), 50, 150, orientasi);
+      return new Tembok(this.canvas, Math.round(posX), Math.round(posY), 80, 150, orientasi);
     });
   }
 

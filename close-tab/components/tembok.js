@@ -1,10 +1,10 @@
 export class Tembok {
-  constructor(canvas, posX, posY, minPanjang = 50, maxPanjang = 150, orientasi = "vertikal", color = { r: 100, g: 100, b: 100 }) {
+  constructor(canvas, posX, posY, minPanjang = 50, maxPanjang = 150, orientasi = "vertikal", color = { r: 88, g: 78, b: 78 }) {
     this.canvas = canvas;
     this.posX = posX;
     this.posY = posY;
     this.panjang = Math.floor(Math.random() * (maxPanjang - minPanjang + 1)) + minPanjang;
-    this.tebal = 10;
+    this.tebal = 15;
     this.orientasi = orientasi;
     this.color = color;
 

@@ -10,7 +10,6 @@ export class Bola {
     // MEMAKAI BANTUAN CHATGPT //
     // Untuk membuuat bola bergerak dengan kecepatan awal dan gravitasi serta pantulan saat menabrak dinding,
     // serta mengecek tabrakan dengan target dan tembok yang ada
-
     this.vx = 0;
     this.vy = 0;
     this.grativasi = 0.55;
