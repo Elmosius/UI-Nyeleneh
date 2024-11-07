@@ -9,6 +9,11 @@ draw() {
     this.context.putImageData(this.image_data,0,0);
     }
 
+clear_canvas() {
+    this.context.clearRect(0, 0, this.canvas_handler.width, this.canvas_handler.height);
+    this.image_data = this.context.getImageData(0, 0, this.canvas_handler.width, this.canvas_handler.height);
+}
+
 create_dot (x, y, color) {
     const index = (Math.round(x) + Math.round(y) * this.canvas_handler.width)*4;
     this.image_data.data[index] = color.r;
@@ -33,7 +38,7 @@ bunga(xc, yc, radius, kelopak, color) {
         }
     }    
 
-// baris 37-44 menggunakan chat gpt
+// baris 42-49 menggunakan chat gpt
 kupu_kupu(xc, yc, size, color) {
     for (let theta = 0; theta < Math.PI * 12; theta += 0.001) {
         const r = Math.exp(Math.sin(theta)) - 2 * Math.cos(4 * theta) + Math.pow(Math.sin((2 * theta - Math.PI) / 24), 5);
@@ -72,6 +77,60 @@ floodFillStack(image_data, canvas, x0, y0, toFlood, color) {
         }
     }
 
+lingkaran_warna(xc, yc, radius, color) {
+    for (var theta = 0; theta < Math.PI*2; theta += 0.001){
+        var x = xc + radius* Math.cos(theta);
+        var y = yc + radius* Math.sin(theta);
+        this.create_dot(Math.ceil(x), Math.ceil(y), color);
+        }
+    }   
+    
+    lingkaran_bergerak(targetX, targetY, color) {
+        const canvasWidth = this.canvas_handler.width;
+        const canvasHeight = this.canvas_handler.height;
+        const speed = 2; // Kecepatan gerak lingkaran
+
+        let circle = { 
+            x: canvasWidth / 2, 
+            y: canvasHeight - 10, 
+            radius: 20, 
+            color: color, 
+            dx: 0,
+            dy: 0
+        };
+
+        const animate = () => {
+            this.clear_canvas();
+
+            const deltaX = targetX - circle.x;
+            const deltaY = targetY - circle.y;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            if (distance > 1) {
+                circle.dx = (deltaX / distance) * speed;
+                circle.dy = (deltaY / distance) * speed;
+
+                circle.x += circle.dx;
+                circle.y += circle.dy;
+            } else {
+                circle.x = targetX;
+                circle.y = targetY;
+            }
+
+            this.lingkaran_warna(circle.x, circle.y, circle.radius, circle.color);
+            this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y), { r: 0, g: 0, b: 0 }, circle.color);
+
+            this.draw();
+
+            if (distance > 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        animate();
+    }
+    
+        
 rotasi(titik_lama, sudut){
     var x_baru = titik_lama.x * Math.cos(sudut) - titik_lama.y * Math.sin(sudut);
     var y_baru = titik_lama.x * Math.sin(sudut) + titik_lama.y * Math.cos(sudut);
