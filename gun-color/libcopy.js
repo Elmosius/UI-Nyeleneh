@@ -45,7 +45,6 @@ kupu_kupu(xc, yc, size, color) {
         const tumpukan = [];
         tumpukan.push({ x: x0, y: y0 });
     
-        // Ambil warna target awal pada titik yang ingin diganti
         const index_awal = 4 * (x0 + y0 * canvas.width);
         const target_r = image_data.data[index_awal];
         const target_g = image_data.data[index_awal + 1];
@@ -59,14 +58,12 @@ kupu_kupu(xc, yc, size, color) {
             const g1 = image_data.data[index_sekarang + 1];
             const b1 = image_data.data[index_sekarang + 2];
     
-            // Ganti warna hanya jika sesuai dengan warna target awal
             if ((r1 === target_r) && (g1 === target_g) && (b1 === target_b)) {
                 image_data.data[index_sekarang] = color.r;
                 image_data.data[index_sekarang + 1] = color.g;
                 image_data.data[index_sekarang + 2] = color.b;
                 image_data.data[index_sekarang + 3] = 255;
     
-                // Tambahkan titik sekitar ke dalam tumpukan untuk pewarnaan
                 tumpukan.push({ x: titik_sekarang.x + 1, y: titik_sekarang.y });
                 tumpukan.push({ x: titik_sekarang.x - 1, y: titik_sekarang.y });
                 tumpukan.push({ x: titik_sekarang.x, y: titik_sekarang.y + 1 });
@@ -96,38 +93,32 @@ lingkaran_warna(xc, yc, radius, color) {
         };
     
         const animate = () => {
-            // Gambar ulang image_data tanpa menghapus pewarnaan area yang sudah ada
             this.context.putImageData(this.image_data, 0, 0);
     
-            // Gambar objek bunga dan kupu-kupu
-            this.bunga(150, 200, 70, 8, { r: 233, g: 216, b: 254, a: 255 });
-            this.kupu_kupu(300, 100, 20, { r: 0, g: 255, b: 0 });
+            this.bunga(130, 200, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
+            this.kupu_kupu(350, 200, 30, { r: 0, g: 255, b: 0 });
     
             const deltaX = targetX - circle.x;
             const deltaY = targetY - circle.y;
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     
             if (distance > 3) {
-                // Update posisi peluru tanpa menyimpannya ke image_data
                 circle.dx = (deltaX / distance) * speed;
                 circle.dy = (deltaY / distance) * speed;
                 circle.x += circle.dx;
                 circle.y += circle.dy;
     
-                // Gambar peluru hanya pada layar tanpa menyimpannya di image_data
                 this.context.beginPath();
                 this.context.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
                 this.context.fillStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
                 this.context.fill();
                 this.context.closePath();
             } else {
-                // Ketika peluru mencapai target, pewarnaan area menggunakan floodFillStack
                 this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y), { r: 0, g: 0, b: 0 }, circle.color);
                 this.context.putImageData(this.image_data, 0, 0); // Tampilkan pewarnaan area yang baru
-                return; // Hentikan animasi setelah pewarnaan
+                return; 
             }
     
-            // Lanjutkan animasi jika jaraknya lebih dari 1 pixel
             requestAnimationFrame(animate);
         };
     

@@ -99,8 +99,8 @@ lingkaran_bergerak(targetX, targetY, color) {
 
         this.draw();
 
-        this.bunga(150, 200, 70, 8, { r: 233, g: 216, b: 254, a: 255 });
-        this.kupu_kupu(300, 100, 20, { r: 0, g: 255, b: 0 });
+        this.bunga(130, 200, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
+        this.kupu_kupu(350, 200, 30, { r: 0, g: 255, b: 0 });
 
         const deltaX = targetX - circle.x;
         const deltaY = targetY - circle.y;
