@@ -151,7 +151,6 @@ export class Ketapel {
       this.kesempatan -= 1;
       this.tab.updateLivesDisplay();
       if (this.kesempatan > 0) {
-        // Pastikan kita membuat bola hanya jika masih ada kesempatan
         const midX = this.posX;
         const midY = this.posY - 30;
         this.bola = new Bola(this.canvas, midX, midY, 5, { r: 0, g: 0, b: 255 }, this, this.targetIcon);
