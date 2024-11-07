@@ -55,7 +55,7 @@ export class TargetIcon {
   }
 
   // Metode deteksi tabrakan dengan bola
-  checkCollision(bola) {
+  checkKena(bola) {
     const distanceX = Math.abs(bola.x - this.posX);
     const distanceY = Math.abs(bola.y - this.posY);
 

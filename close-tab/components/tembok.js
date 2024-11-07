@@ -41,7 +41,7 @@ export class Tembok {
     this.canvas.draw();
   }
 
-  checkCollision(bola) {
+  checkKena(bola) {
     const jarakX = Math.abs(bola.x - (this.orientasi === "vertikal" ? this.posX : (this.posX + this.xAkhir) / 2));
     const jarakY = Math.abs(bola.y - (this.orientasi === "horizontal" ? this.posY : (this.posY + this.yAkhir) / 2));
 

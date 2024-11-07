@@ -55,7 +55,7 @@ export class Bola {
     }
 
     // Cek tabrakan dengan target
-    if (this.targetIcon.checkCollision(this)) {
+    if (this.targetIcon.checkKena(this)) {
       console.log("Target Kena!");
       this.hasHitTarget = true;
       this.ketapel.endGameWithSuccess();
@@ -65,7 +65,7 @@ export class Bola {
 
     // Cek tabrakan kalau kena si tembok
     this.ketapel.tembokList = this.ketapel.tembokList.filter((tembok) => {
-      if (tembok.checkCollision(this)) {
+      if (tembok.checkKena(this)) {
         this.vx = -this.vx * this.pantulan;
         this.vy = -this.vy * this.pantulan;
         return false;

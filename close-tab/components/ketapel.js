@@ -118,8 +118,19 @@ export class Ketapel {
     }
   }
 
+  showAlert(message, type = "info") {
+    const alertElement = document.getElementById("game-alert");
+    alertElement.className = `alert alert-${type}`;
+    alertElement.innerText = message;
+    alertElement.parentElement.style.display = "block";
+
+    setTimeout(() => {
+      alertElement.parentElement.style.display = "none";
+    }, 3000);
+  }
+
   endGameWithSuccess() {
-    alert("Target terkena! HAHAA SELAMAT YAA!");
+    this.showAlert("Target terkena! HAHAA SELAMAT YAA!", "success");
     this.isGameEnded = true;
     this.bola = null;
     this.isDragging = false;
@@ -127,8 +138,10 @@ export class Ketapel {
   }
 
   endGameWithFailure() {
-    console.log("Kesempatan habis! COBA LAGII HEHE:)");
-    location.reload();
+    this.showAlert("Kesempatan habis! COBA LAGII HEHE:)", "danger");
+    setTimeout(() => {
+      location.reload();
+    }, 3000);
   }
 
   resetBola() {
@@ -146,7 +159,7 @@ export class Ketapel {
           this.endGameWithFailure();
         }, 3000);
       }
-    } else if (this.kesempatan <= 0) {
+    } else if (this.kesempatan <= 0 && !this.bola.hasHitTarget) {
       setTimeout(() => {
         this.endGameWithFailure();
       }, 3000);
