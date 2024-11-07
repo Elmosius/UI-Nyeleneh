@@ -96,13 +96,10 @@ lingkaran_warna(xc, yc, radius, color) {
         };
     
         const animate = () => {
-            // Langkah 1: Bersihkan seluruh canvas setiap frame untuk menghapus jejak peluru
-            this.context.clearRect(0, 0, this.canvas_handler.width, this.canvas_handler.height);
-    
-            // Langkah 2: Gambar ulang image_data tanpa peluru untuk mempertahankan pewarnaan tetap
+            // Gambar ulang image_data tanpa menghapus pewarnaan area yang sudah ada
             this.context.putImageData(this.image_data, 0, 0);
     
-            // Langkah 3: Gambar objek tetap seperti bunga dan kupu-kupu
+            // Gambar objek bunga dan kupu-kupu
             this.bunga(150, 200, 70, 8, { r: 233, g: 216, b: 254, a: 255 });
             this.kupu_kupu(300, 100, 20, { r: 0, g: 255, b: 0 });
     
@@ -110,30 +107,27 @@ lingkaran_warna(xc, yc, radius, color) {
             const deltaY = targetY - circle.y;
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     
-            if (distance > 1) {
-                // Langkah 4: Update posisi peluru tanpa menyimpan ke image_data
+            if (distance > 3) {
+                // Update posisi peluru tanpa menyimpannya ke image_data
                 circle.dx = (deltaX / distance) * speed;
                 circle.dy = (deltaY / distance) * speed;
                 circle.x += circle.dx;
                 circle.y += circle.dy;
     
-                // Langkah 5: Gambar peluru sementara di posisi baru menggunakan lingkaran_warna
+                // Gambar peluru menggunakan lingkaran_warna di posisi baru
                 this.lingkaran_warna(circle.x, circle.y, circle.radius, circle.color);
             } else {
-                // Langkah 6: Ketika peluru mencapai target, warnai area target menggunakan floodFillStack
+                // Ketika peluru mencapai target, pewarnaan area menggunakan floodFillStack
                 this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y), { r: 0, g: 0, b: 0 }, circle.color);
-    
-                // Tampilkan pewarnaan area yang baru di canvas
-                this.context.putImageData(this.image_data, 0, 0);
+                this.context.putImageData(this.image_data, 0, 0); // Tampilkan pewarnaan area yang baru
                 return; // Hentikan animasi setelah pewarnaan
             }
     
-            // Lanjutkan ke frame berikutnya untuk animasi
+            // Lanjutkan animasi jika jaraknya lebih dari 1 pixel
             requestAnimationFrame(animate);
         };
     
         animate();
-    }
-    
+    }        
          
 }
