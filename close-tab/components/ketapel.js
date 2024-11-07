@@ -2,8 +2,10 @@ import { TransformasiMatriks } from "./transformasi.js";
 import { Bola } from "./bola.js";
 
 export class Ketapel {
-  constructor(canvas, posX, posY, scale = 1, color = { r: 88, g: 77, b: 78 }, targetIcon, tembokList) {
+  constructor(canvas, posX, posY, scale = 1, color = { r: 88, g: 77, b: 78 }, targetIcon, tembokList, tab) {
     this.canvas = canvas;
+    this.tab = tab;
+
     this.posX = posX;
     this.posY = posY;
     this.scale = scale;
@@ -144,9 +146,10 @@ export class Ketapel {
     }, 3000);
   }
 
-  resetBola() {
+  async resetBola() {
     if (this.kesempatan > 0 && !this.isGameEnded) {
       this.kesempatan -= 1;
+      this.tab.updateLivesDisplay();
       if (this.kesempatan > 0) {
         // Pastikan kita membuat bola hanya jika masih ada kesempatan
         const midX = this.posX;
@@ -155,14 +158,20 @@ export class Ketapel {
         this.bola.draw();
         console.log(`Kesempatan tersisa: ${this.kesempatan}`);
       } else {
-        setTimeout(() => {
-          this.endGameWithFailure();
-        }, 3000);
+        await this.checkLastShot();
       }
-    } else if (this.kesempatan <= 0 && !this.bola.hasHitTarget) {
-      setTimeout(() => {
-        this.endGameWithFailure();
-      }, 3000);
+    } else if (this.kesempatan <= 0) {
+      await this.checkLastShot();
+    }
+  }
+
+  // Pastiin menang atau engga di peluru terakhir
+  async checkLastShot() {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    if (this.isGameEnded) {
+      this.showAlert("Selamat! kamu berhasil keluar!", "success");
+    } else {
+      this.endGameWithFailure();
     }
   }
 
@@ -178,8 +187,16 @@ export class Ketapel {
     window.addEventListener("mousemove", (e) => {
       if (this.isDragging && !this.isGameEnded) {
         const rect = this.canvas.c_handler.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left;
-        const offsetY = e.clientY - rect.top;
+        let offsetX = e.clientX - rect.left;
+        let offsetY = e.clientY - rect.top;
+
+        // Biar offsetX tidak menembus dari kiri ke kanan atau sebaliknya
+        if (offsetX < 0) {
+          offsetX = 0;
+        } else if (offsetX > rect.width) {
+          offsetX = rect.width;
+        }
+
         this.draggedPosition = { x: offsetX, y: offsetY };
         this.redraw();
       }

@@ -35,6 +35,14 @@ export class WebTab {
     this.iconCliked();
   }
 
+  updateLivesDisplay() {
+    const livesContainer = document.getElementById("lives");
+    livesContainer.innerHTML = "";
+    for (let i = 0; i < this.ketapel.kesempatan; i++) {
+      livesContainer.innerHTML += '<i class="bi bi-heart-fill"></i> ';
+    }
+  }
+
   // MEMAKAI BANTUAN CHATGPT //
   // Untuk membuatkan ide menggenerate tembok secara acak di dalam array yang isinya random jumlah tembok, posisi,
   // dan orientasi
@@ -114,8 +122,10 @@ export class WebTab {
 
         const ketapelPosX = this.width / 4;
         const ketapelPosY = this.height - 30;
-        this.ketapel = new Ketapel(this.canvas, ketapelPosX, ketapelPosY, 1, { r: 150 }, targetIcon, this.tembokList);
+        this.ketapel = new Ketapel(this.canvas, ketapelPosX, ketapelPosY, 1, { r: 150 }, targetIcon, this.tembokList, this);
         this.ketapel.draw();
+
+        this.updateLivesDisplay();
       }
     });
   }
