@@ -48,10 +48,10 @@ export class WebTab {
   // array yang isinya random jumlah tembok, posisi,
   // dan orientasi
   createRandomTembok() {
-    const tembokCount = Math.floor(Math.random() * 5) + 2; // 1-3 tembok
+    const tembokCount = Math.floor(Math.random() * 5) + 2;
     this.tembokList = Array.from({ length: tembokCount }, () => {
       const posX = Math.floor(Math.random() * this.width);
-      const posY = Math.floor((Math.random() * this.height) / 2); // Supaya tidak terlalu ke bawah
+      const posY = Math.floor((Math.random() * this.height) / 2);
       const orientasi = Math.random() > 0.5 ? "vertikal" : "horizontal";
       return new Tembok(this.canvas, Math.round(posX), Math.round(posY), 50, 150, orientasi);
     });
