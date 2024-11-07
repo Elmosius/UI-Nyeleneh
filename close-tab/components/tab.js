@@ -156,6 +156,7 @@ export class WebTab {
           { x: this.width - this.iconSize - 2, y: this.headerHeight - 2 },
           { x: 0, y: this.headerHeight - 2 },
         ];
+
         this.canvas.polygon(headerPoints, this.headerColor);
         this.canvas.floodFillStack(5, 5, { r: 0, g: 0, b: 0 }, this.headerColor);
         this.canvas.polygon(this.contentPoints, this.contentColor);
