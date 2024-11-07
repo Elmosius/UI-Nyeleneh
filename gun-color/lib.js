@@ -82,7 +82,7 @@ lingkaran_warna(xc, yc, radius, color) {
         this.create_dot(Math.ceil(x), Math.ceil(y), color);
         }
     }   
-    
+
 lingkaran_bergerak(targetX, targetY, color) {
     const speed = 5;
 
@@ -121,12 +121,7 @@ lingkaran_bergerak(targetX, targetY, color) {
             return; 
         }
 
-        for (let theta = 0; theta < Math.PI * 2; theta += 0.01) {
-            const x = circle.x + circle.radius * Math.cos(theta);
-            const y = circle.y + circle.radius * Math.sin(theta);
-            this.create_dot(x, y, circle.color);
-        }
-
+        this.lingkaran_warna(circle.x, circle.y, circle.radius, circle.color);
         requestAnimationFrame(animate);
     };
 
