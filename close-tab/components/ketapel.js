@@ -202,7 +202,7 @@ export class Ketapel {
     });
 
     // MENGGUNAKAN BANTUAN CHATGPT //
-    // Untuk melempar bola ketika mouseup menggunakan vektor parabola
+    // Untuk melempar bola ketika mouseup menggunakan vektor 
     window.addEventListener("mouseup", () => {
       if (this.isDragging && !this.isGameEnded) {
         this.isDragging = false;
@@ -218,7 +218,7 @@ export class Ketapel {
         const angle = Math.atan2(dy, dx);
 
         // Skala kecepatan berdasarkan magnitudo, sesuaikan scaleFactor untuk hasil yang diinginkan
-        const scaleFactor = 0.25; // Semakin besar nilainya, semakin cepat bola
+        const scaleFactor = 0.25; 
         const kecepatanAwal = magnitude * scaleFactor;
 
         // Tentukan komponen horizontal dan vertikal dari kecepatan awal
