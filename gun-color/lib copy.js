@@ -74,7 +74,7 @@ kupu_kupu(xc, yc, size, color) {
             }
         }
     }
-        
+    
 lingkaran_warna(xc, yc, radius, color) {
     for (var theta = 0; theta < Math.PI*2; theta += 0.001){
         var x = xc + radius* Math.cos(theta);
@@ -96,13 +96,10 @@ lingkaran_warna(xc, yc, radius, color) {
         };
     
         const animate = () => {
-            // Bersihkan seluruh canvas setiap frame
-            this.context.clearRect(0, 0, this.canvas_handler.width, this.canvas_handler.height);
-    
-            // Gambar ulang image_data untuk mempertahankan pewarnaan tetap
+            // Gambar ulang image_data tanpa menghapus pewarnaan area yang sudah ada
             this.context.putImageData(this.image_data, 0, 0);
     
-            // Gambar objek bunga dan kupu-kupu di setiap frame
+            // Gambar objek bunga dan kupu-kupu
             this.bunga(150, 200, 70, 8, { r: 233, g: 216, b: 254, a: 255 });
             this.kupu_kupu(300, 100, 20, { r: 0, g: 255, b: 0 });
     
@@ -110,29 +107,32 @@ lingkaran_warna(xc, yc, radius, color) {
             const deltaY = targetY - circle.y;
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     
-            if (distance > 1) {
-                // Update posisi peluru tanpa menyimpan ke image_data
+            if (distance > 3) {
+                // Update posisi peluru tanpa menyimpannya ke image_data
                 circle.dx = (deltaX / distance) * speed;
                 circle.dy = (deltaY / distance) * speed;
                 circle.x += circle.dx;
                 circle.y += circle.dy;
     
-                // Gambar peluru sementara menggunakan lingkaran_warna
-                this.lingkaran_warna(circle.x, circle.y, circle.radius, circle.color);
+                // Gambar peluru hanya pada layar tanpa menyimpannya di image_data
+                this.context.beginPath();
+                this.context.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+                this.context.fillStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
+                this.context.fill();
+                this.context.closePath();
             } else {
-                // Ketika peluru mencapai target, warnai area target menggunakan floodFillStack
+                // Ketika peluru mencapai target, pewarnaan area menggunakan floodFillStack
                 this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y), { r: 0, g: 0, b: 0 }, circle.color);
-    
-                // Tampilkan pewarnaan area yang baru di canvas
-                this.context.putImageData(this.image_data, 0, 0);
+                this.context.putImageData(this.image_data, 0, 0); // Tampilkan pewarnaan area yang baru
                 return; // Hentikan animasi setelah pewarnaan
             }
     
-            // Minta frame berikutnya untuk animasi peluru
+            // Lanjutkan animasi jika jaraknya lebih dari 1 pixel
             requestAnimationFrame(animate);
         };
     
         animate();
     }
+    
     
 }

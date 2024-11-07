@@ -2,11 +2,8 @@ import { ImageLib } from "./lib.js";
 
 const lib = new ImageLib('my_canvas');
 
-const posisiBunga = { x: 150, y: 250, radius: 70, kelopak: 8, color: { r: 233, g: 216, b: 254, a: 255 } };
-const posisiKupuKupu = { x: 300, y: 100, size: 20, color: { r: 0, g: 255, b: 0 } };
-
-lib.bunga(posisiBunga.x, posisiBunga.y, posisiBunga.radius, posisiBunga.kelopak, posisiBunga.color);
-lib.kupu_kupu(posisiKupuKupu.x, posisiKupuKupu.y, posisiKupuKupu.size, posisiKupuKupu.color);
+lib.bunga(150, 200, 70, 8, { r: 233, g: 216, b: 254, a: 255 });
+lib.kupu_kupu(300, 100, 20, { r: 0, g: 255, b: 0 });
 lib.draw();
 
 let warnaTerpilih = { r: 255, g: 0, b: 0 };
@@ -23,7 +20,7 @@ document.getElementById('purple').addEventListener('click', () => ubahWarna(128,
 document.getElementById('cyan').addEventListener('click', () => ubahWarna(0, 255, 255));
 
 function peluru_warna(targetX, targetY) {
-    lib.lingkaran_bergerak(targetX, targetY, warnaTerpilih, posisiBunga, posisiKupuKupu);
+    lib.lingkaran_bergerak(targetX, targetY, warnaTerpilih);
 }
 
 document.getElementById('my_canvas').addEventListener('click', (e) => {
