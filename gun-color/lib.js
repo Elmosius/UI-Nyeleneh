@@ -29,7 +29,8 @@ bunga(xc, yc, radius, kelopak, color) {
         }
     }    
 
-// baris 42-49 menggunakan chat GPT
+// baris 33-41 menggunakan chat GPT
+// bagaimana cara membuat objek kupu-kupu?
 kupu_kupu(xc, yc, size, color) {
     for (let theta = 0; theta < Math.PI * 12; theta += 0.001) {
         const r = Math.exp(Math.sin(theta)) - 2 * Math.cos(4 * theta) + Math.pow(Math.sin((2 * theta - Math.PI) / 24), 5);
@@ -102,7 +103,8 @@ lingkaran_bergerak(targetX, targetY, color) {
         this.bunga(130, 200, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
         this.kupu_kupu(350, 200, 30, { r: 0, g: 255, b: 0 });
 
-        //baris 106-108 menggunakan GPT
+        //baris 108-110 menggunakan GPT
+        // bagaimana cara membuat objek lingkaran bergerak ke arah kursor
         const deltaX = targetX - circle.x;
         const deltaY = targetY - circle.y;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);

@@ -31,6 +31,8 @@ export class ImageLib {
         }
     }
 
+// baris 36-43 menggunakan chat GPT
+// bagaimana cara membuat objek kupu-kupu?
     kupu_kupu(xc, yc, size, color) {
         for (let theta = 0; theta < Math.PI * 12; theta += 0.001) {
             const r = Math.exp(Math.sin(theta)) - 2 * Math.cos(4 * theta) + Math.pow(Math.sin((2 * theta - Math.PI) / 24), 5);
@@ -107,6 +109,8 @@ export class ImageLib {
 
             this.clear_canvas();
 
+            // baris 114-116 menggunakan chat GPT
+            // bagaimana cara membuat objek lingkaran bergerak ke arah kursor
             const deltaX = targetX - circle.x;
             const deltaY = targetY - circle.y;
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
