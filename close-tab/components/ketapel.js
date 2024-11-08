@@ -221,18 +221,14 @@ export class Ketapel {
         const scaleFactor = 0.25; 
         const kecepatanAwal = magnitude * scaleFactor;
 
-        // Tentukan komponen horizontal dan vertikal dari kecepatan awal
         const kecepatanAwalX = kecepatanAwal * Math.cos(angle);
         const kecepatanAwalY = kecepatanAwal * Math.sin(angle);
 
-        // Lempar bola dengan kecepatan awal yang sesuai arah tarikan
         this.bola.lempar(kecepatanAwalX, kecepatanAwalY);
         this.resetBola();
       }
-      // Kembali ke posisi semula
       this.draggedPosition = { x: this.posX, y: this.posY };
 
-      // Gambar ulang ketapel tanpa bola
       this.redraw();
     });
   }

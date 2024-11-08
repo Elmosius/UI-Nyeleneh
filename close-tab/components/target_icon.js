@@ -54,7 +54,7 @@ export class TargetIcon {
     this.canvas.draw();
   }
 
-  // Metode deteksi tabrakan dengan bola
+  // Metode deteksi tabrakan dengan bola  
   checkKena(bola) {
     const distanceX = Math.abs(bola.x - this.posX);
     const distanceY = Math.abs(bola.y - this.posY);
