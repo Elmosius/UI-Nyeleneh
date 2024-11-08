@@ -5,7 +5,7 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background-color: #2e2e2e; /* Warna seperti layar desktop */
+    background-color: #2e2e2e;
 }
 canvas {
     border: 2px solid black;

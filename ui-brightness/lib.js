@@ -20,7 +20,7 @@ export class ImageLib {
         imageData.data[index + 3] = color.a;
     }
     
-    // untuk mengontrol curtainnya
+    // untuk mengontrol curtainnya (sebagian pakai AI)
     controlCurtain() {
         this.canvas.addEventListener("mousedown", (e) => {
             this.isDragging = true;
@@ -40,7 +40,7 @@ export class ImageLib {
         });
     }
 
-    // fungsi untuk menggambar curtain
+    // fungsi untuk menggambar curtain (memakai bantuan GPT)
     drawCurtain() {
         // untuk menyembunyikan brightness curtail
         if (this.curtainHeight <= 0) {
@@ -52,7 +52,7 @@ export class ImageLib {
         const brightness = (this.curtainHeight / this.canvas.height);
         const brightnessColor = { r: 0, g: 0, b: 0, a: Math.floor(brightness * 255) };
     
-        // menyesuaikan background dengan warna brightness
+        // menyesuaikan background brightness dengan warna brightness curtain height
         const bgBrightness = 255 * (1 - brightness); 
         document.body.style.backgroundColor = `rgb(${bgBrightness}, ${bgBrightness}, ${bgBrightness})`;
     
@@ -65,7 +65,7 @@ export class ImageLib {
     
         const curtainColor = { r: 51, g: 51, b: 51, a: 255 }; 
         const separatorColor = { r: 0, g: 0, b: 0, a: 255 };
-        const layer = 8; 
+        const layer = 8;
         const layerHeight = Math.floor(this.curtainHeight / layer);
     
         for (let i = 0; i < layer; i++) {

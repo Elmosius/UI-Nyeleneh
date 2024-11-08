@@ -29,6 +29,7 @@
         const taskbar = document.getElementById('taskbar');
         const imageLib = new ImageLib('canvas');
 
+        // menggunakan bantuan GPT
         // perintah untuk ketika klik iconnya maka akan memunculkan curtain brightness dan akan otomatis ada animasi naik dan turunnya
         brightnessIcon.addEventListener('click', () => {
             if (canvas.style.display === 'none' || !canvas.style.display) {
@@ -39,8 +40,8 @@
             }
         });
 
+        // menggunakan bantuan GPT
         // fungsi animasi ketika curtain brightness dibuka
-
         function animateCurtainOpen() {
             let curtainHeight = canvas.height;
             const openInterval = setInterval(() => {
@@ -53,6 +54,7 @@
             }, 16); 
         }
         
+        // menggunakan bantuan GPT
         // fungsi animasi ketika curtain brightness ditutup
         function animateCurtainClose() {
             let curtainHeight = 0;
@@ -67,6 +69,7 @@
             }, 16);
         }
 
+        // menggunakan bantuan GPT + menggunakan dari materi sebelumnya yang ada
         // mengatur waktu agar sesuai dengan real time
         function updateTime() {
             const now = new Date();
