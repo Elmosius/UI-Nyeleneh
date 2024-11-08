@@ -21,7 +21,6 @@ export class ImageLib {
     }
     
     // untuk mengontrol curtainnya 
-    // menggunakan bantuan sebagian gpt, promtnya untuk scrolling
     controlCurtain() {
         this.canvas.addEventListener("mousedown", (e) => {
             this.isDragging = true;
