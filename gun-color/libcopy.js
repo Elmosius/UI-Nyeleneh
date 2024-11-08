@@ -31,17 +31,6 @@ bunga(xc, yc, radius, kelopak, color) {
         }
     }    
 
-// baris 36-43 menggunakan chat GPT
-// bagaimana cara membuat objek kupu-kupu?
-kupu_kupu(xc, yc, size, color) {
-    for (let theta = 0; theta < Math.PI * 12; theta += 0.001) {
-        const r = Math.exp(Math.sin(theta)) - 2 * Math.cos(4 * theta) + Math.pow(Math.sin((2 * theta - Math.PI) / 24), 5);
-        const x = xc + size * r * Math.cos(theta);
-        const y = yc - size * r * Math.sin(theta);
-        this.create_dot(Math.ceil(x), Math.ceil(y), color);
-        }
-    }
-
 floodFillStack(image_data, canvas, x0, y0, toFlood, color) {
     const tumpukan = [];
     tumpukan.push({ x: x0, y: y0 });
@@ -97,9 +86,10 @@ lingkaran_warna(xc, yc, radius, color) {
             this.context.putImageData(this.image_data, 0, 0);
     
             this.bunga(130, 200, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
-            this.kupu_kupu(350, 200, 30, { r: 0, g: 255, b: 0 });
-            
-            // baris 114-116 menggunakan chat GPT
+            this.bunga(370, 200, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
+            this.bunga(250, 350, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
+                
+            // baris 94-96 menggunakan chat GPT
             // bagaimana cara membuat objek lingkaran bergerak ke arah kursor
             const deltaX = targetX - circle.x;
             const deltaY = targetY - circle.y;
@@ -111,7 +101,7 @@ lingkaran_warna(xc, yc, radius, color) {
                 circle.x += circle.dx;
                 circle.y += circle.dy;
     
-                // baris 113-117 menggunakan gpt
+                // baris 106-110 menggunakan gpt
                 // mengapa objek peluru menjadi mengganda di setiap perpindahan, bagaimana cara agar objek peluru tidak tersimpan di canvas
                 this.context.beginPath();
                 this.context.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);

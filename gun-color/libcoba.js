@@ -31,17 +31,6 @@ export class ImageLib {
         }
     }
 
-// baris 36-43 menggunakan chat GPT
-// bagaimana cara membuat objek kupu-kupu?
-    kupu_kupu(xc, yc, size, color) {
-        for (let theta = 0; theta < Math.PI * 12; theta += 0.001) {
-            const r = Math.exp(Math.sin(theta)) - 2 * Math.cos(4 * theta) + Math.pow(Math.sin((2 * theta - Math.PI) / 24), 5);
-            const x = xc + size * r * Math.cos(theta);
-            const y = yc - size * r * Math.sin(theta);
-            this.create_dot(Math.ceil(x), Math.ceil(y), color);
-        }
-    }
-
     floodFillStack(image_data, canvas, x0, y0, currentColor, newColor) {
         const stack = [];
         stack.push({ x: x0, y: y0 });
@@ -93,47 +82,47 @@ export class ImageLib {
         }
     }
 
-    lingkaran_bergerak(targetX, targetY, color) {
-        const speed = 5;
+lingkaran_bergerak(targetX, targetY, color) {
+    const speed = 5;
 
-        let circle = {
-            x: this.canvas_handler.width / 2,
-            y: this.canvas_handler.height - 10,
-            radius: 5,
-            color: color,
-        };
+    let circle = {
+        x: this.canvas_handler.width / 2,
+        y: this.canvas_handler.height - 10,
+        radius: 5,
+        color: color,
+    };
 
-        const animate = () => {
-            this.clear_canvas();
-            this.context.putImageData(this.image_data, 0, 0);
+    const animate = () => {
+        this.clear_canvas();
+        this.context.putImageData(this.image_data, 0, 0);
 
-            this.clear_canvas();
+        this.clear_canvas();
 
-            // baris 114-116 menggunakan chat GPT
-            // bagaimana cara membuat objek lingkaran bergerak ke arah kursor
-            const deltaX = targetX - circle.x;
-            const deltaY = targetY - circle.y;
-            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        // baris 103-105 menggunakan chat GPT
+        // bagaimana cara membuat objek lingkaran bergerak ke arah kursor
+        const deltaX = targetX - circle.x;
+        const deltaY = targetY - circle.y;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-            if (distance > 5) {
-                const moveX = (deltaX / distance) * speed;
-                const moveY = (deltaY / distance) * speed;
+        if (distance > 5) {
+            const moveX = (deltaX / distance) * speed;
+            const moveY = (deltaY / distance) * speed;
 
-                circle.x += moveX;
-                circle.y += moveY;
-            } else {
-                this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y), { r: 0, g: 0, b: 0 }, circle.color);
-                this.draw(); 
-                return; 
-            }
+            circle.x += moveX;
+            circle.y += moveY;
+        } else {
+            this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y), { r: 0, g: 0, b: 0 }, circle.color);
+            this.draw(); 
+            return; 
+        }
 
-            this.lingkaran_warna(circle.x, circle.y, circle.radius, circle.color);
+        this.lingkaran_warna(circle.x, circle.y, circle.radius, circle.color);
 
-            this.context.putImageData(this.image_data_peluru, 0, 0);
+        this.context.putImageData(this.image_data_peluru, 0, 0);
 
-            requestAnimationFrame(animate);
-        };
+        requestAnimationFrame(animate);
+    };
 
-        animate();
+    animate();
     }
 }

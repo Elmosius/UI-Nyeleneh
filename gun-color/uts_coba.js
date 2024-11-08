@@ -1,9 +1,10 @@
-import { ImageLib } from "./libcopy.js";
+import { ImageLib } from "./libcoba.js";
 
 const lib = new ImageLib('my_canvas');
 
 lib.bunga(130, 200, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
-lib.kupu_kupu(350, 200, 30, { r: 0, g: 255, b: 0 });
+lib.bunga(370, 200, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
+lib.bunga(250, 350, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
 lib.draw();
 
 let warnaTerpilih = { r: 255, g: 0, b: 0 };
