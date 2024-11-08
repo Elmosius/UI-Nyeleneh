@@ -97,7 +97,8 @@ lingkaran_warna(xc, yc, radius, color) {
     
             this.bunga(130, 200, 100, 8, { r: 233, g: 216, b: 254, a: 255 });
             this.kupu_kupu(350, 200, 30, { r: 0, g: 255, b: 0 });
-    
+            
+            // baris 102-104 menggunakan gpt
             const deltaX = targetX - circle.x;
             const deltaY = targetY - circle.y;
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -108,6 +109,7 @@ lingkaran_warna(xc, yc, radius, color) {
                 circle.x += circle.dx;
                 circle.y += circle.dy;
     
+                // baris 113-117 menggunakan gpt
                 this.context.beginPath();
                 this.context.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
                 this.context.fillStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
@@ -115,7 +117,7 @@ lingkaran_warna(xc, yc, radius, color) {
                 this.context.closePath();
             } else {
                 this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y), { r: 0, g: 0, b: 0 }, circle.color);
-                this.context.putImageData(this.image_data, 0, 0); // Tampilkan pewarnaan area yang baru
+                this.context.putImageData(this.image_data, 0, 0);
                 return; 
             }
     

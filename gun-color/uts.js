@@ -1,4 +1,4 @@
-import { ImageLib } from "./lib.js";
+import { ImageLib } from "./libcopy.js";
 
 const lib = new ImageLib('my_canvas');
 
