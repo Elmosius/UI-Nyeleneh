@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weird UI - Brightness slider using curtain</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div class="taskbar" id="taskbar">
+        <div class="taskbar-icon" id="brightness-icon">☀️</div> 
+        <div class="taskbar-icon">🔊</div> 
+        <div class="taskbar-icon">🛜</div> 
+        <div class="taskbar-icon">🔋</div> 
+        <div class="taskbar-time">
+            <div class="time" id="time">12:30 PM</div>
+            <div class="date" id="date">11/01/2024</div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { ImageLib } from './lib.js';
+        import MatrixUtility from './matrix.js';
+
+        const canvas = document.getElementById('canvas');
+        const brightnessIcon = document.getElementById('brightness-icon');
+        const taskbar = document.getElementById('taskbar');
+        const imageLib = new ImageLib('canvas');
+
+        // perintah untuk ketika klik iconnya maka akan memunculkan curtain brightness dan akan otomatis ada animasi naik dan turunnya
+        // menggunakan promtnya untuk membantu klik icon untuk memunculkan curtain
+        brightnessIcon.addEventListener('click', () => {
+            if (canvas.style.display === 'none' || !canvas.style.display) {
+                canvas.style.display = 'block';
+                animateCurtainOpen();
+            } else {
+                animateCurtainClose();
+            }
+        });
+
+        // menggunakan bantuan GPT
+        // fungsi animasi ketika curtain brightness dibuka
+        // promtnya untuk membantu animasi curtain terbuka dan tertutup
+        function animateCurtainOpen() {
+            let curtainHeight = canvas.height;
+            const openInterval = setInterval(() => {
+                curtainHeight -= 10;
+                if (curtainHeight <= 0) {
+                    clearInterval(openInterval);
+                } else {
+                    MatrixUtility.applyCurtainEffect(imageLib, curtainHeight); 
+                }
+            }, 16); 
+        }
+        
+        // menggunakan bantuan GPT
+        // fungsi animasi ketika curtain brightness ditutup
+        function animateCurtainClose() {
+            let curtainHeight = 0;
+            const closeInterval = setInterval(() => {
+                curtainHeight += 10;
+                if (curtainHeight >= canvas.height) {
+                    clearInterval(closeInterval);
+                    canvas.style.display = 'none';
+                } else {
+                    MatrixUtility.applyCurtainEffect(imageLib, curtainHeight);
+                }
+            }, 16);
+        }
+
+        // menggunakan bantuan GPT + menggunakan dari materi sebelumnya yang ada
+        // mengatur waktu agar sesuai dengan real time
+        // promtnya diminta untuk memunculkan real time
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours() % 12 || 12;
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+            const timeString = `${hours}:${minutes} ${ampm}`;
+            const dateString = now.toLocaleDateString();
+
+            document.getElementById('time').textContent = timeString;
+            document.getElementById('date').textContent = dateString;
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>
