@@ -1,4 +1,4 @@
-import { ImageLib } from "./lib.js";
+import { ImageLib } from "./libcopy.js";
 
 const lib = new ImageLib('my_canvas');
 
@@ -19,16 +19,7 @@ document.getElementById('yellow').addEventListener('click', () => ubahWarna(255,
 document.getElementById('purple').addEventListener('click', () => ubahWarna(128, 0, 128));
 document.getElementById('cyan').addEventListener('click', () => ubahWarna(0, 255, 255));
 
-const startX = lib.canvas_handler.width / 2;
-const startY = lib.canvas_handler.height - 10;
-
-lib.lingkaran_warna(startX, startY, 10, warnaTerpilih);
-lib.floodFillStack(lib.image_data, lib.canvas_handler, Math.round(startX), Math.round(startY), { r: 0, g: 0, b: 0 }, warnaTerpilih);
-lib.draw();
-
-
 function peluru_warna(targetX, targetY) {
-    lib.floodFillStack(lib.image_data, lib.canvas_handler, Math.round(startX), Math.round(startY), { r: 0, g: 0, b: 0 }, warnaTerpilih);
     lib.draw();
     lib.lingkaran_bergerak(targetX, targetY, warnaTerpilih);
 }

@@ -23,7 +23,6 @@ export class ImageLib {
         this.image_data.data[index + 3] = 255;
     }
 
-    // Fungsi untuk menggambar bunga
     bunga(xc, yc, radius, kelopak, color) {
         for (var theta = 0; theta < Math.PI * 2; theta += 0.001) {
             var x = xc + radius * Math.cos(kelopak * theta) * Math.cos(theta);
@@ -32,7 +31,6 @@ export class ImageLib {
         }
     }
 
-    // Fungsi untuk menggambar kupu-kupu
     kupu_kupu(xc, yc, size, color) {
         for (let theta = 0; theta < Math.PI * 12; theta += 0.001) {
             const r = Math.exp(Math.sin(theta)) - 2 * Math.cos(4 * theta) + Math.pow(Math.sin((2 * theta - Math.PI) / 24), 5);
@@ -42,7 +40,6 @@ export class ImageLib {
         }
     }
 
-    // Flood fill untuk pewarnaan
     floodFillStack(image_data, canvas, x0, y0, currentColor, newColor) {
         const stack = [];
         stack.push({ x: x0, y: y0 });

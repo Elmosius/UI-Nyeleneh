@@ -84,7 +84,7 @@ lingkaran_warna(xc, yc, radius, color) {
     }   
 
 lingkaran_bergerak(targetX, targetY, color) {
-    const speed = 5;
+    const speed = 25;
 
     let circle = {
         x: this.canvas_handler.width / 2,
@@ -107,7 +107,7 @@ lingkaran_bergerak(targetX, targetY, color) {
         const deltaY = targetY - circle.y;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (distance > 5) {
+        if (distance > 15) {
             const moveX = (deltaX / distance) * speed;
             const moveY = (deltaY / distance) * speed;
 
@@ -117,7 +117,7 @@ lingkaran_bergerak(targetX, targetY, color) {
             circle.x = targetX;
             circle.y = targetY;
 
-            this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y-5), { r: 0, g: 0, b: 0 }, circle.color);
+            this.floodFillStack(this.image_data, this.canvas_handler, Math.round(circle.x), Math.round(circle.y-10), { r: 255, g: 0, b: 0 }, circle.color);
             this.draw(); 
             return; 
         }

@@ -41,36 +41,36 @@ kupu_kupu(xc, yc, size, color) {
         }
     }
 
-    floodFillStack(image_data, canvas, x0, y0, toFlood, color) {
-        const tumpukan = [];
-        tumpukan.push({ x: x0, y: y0 });
-    
-        const index_awal = 4 * (x0 + y0 * canvas.width);
-        const target_r = image_data.data[index_awal];
-        const target_g = image_data.data[index_awal + 1];
-        const target_b = image_data.data[index_awal + 2];
-    
-        while (tumpukan.length > 0) {
-            const titik_sekarang = tumpukan.pop();
-            const index_sekarang = 4 * (titik_sekarang.x + titik_sekarang.y * canvas.width);
-    
-            const r1 = image_data.data[index_sekarang];
-            const g1 = image_data.data[index_sekarang + 1];
-            const b1 = image_data.data[index_sekarang + 2];
-    
-            if ((r1 === target_r) && (g1 === target_g) && (b1 === target_b)) {
-                image_data.data[index_sekarang] = color.r;
-                image_data.data[index_sekarang + 1] = color.g;
-                image_data.data[index_sekarang + 2] = color.b;
-                image_data.data[index_sekarang + 3] = 255;
-    
-                tumpukan.push({ x: titik_sekarang.x + 1, y: titik_sekarang.y });
-                tumpukan.push({ x: titik_sekarang.x - 1, y: titik_sekarang.y });
-                tumpukan.push({ x: titik_sekarang.x, y: titik_sekarang.y + 1 });
-                tumpukan.push({ x: titik_sekarang.x, y: titik_sekarang.y - 1 });
-            }
+floodFillStack(image_data, canvas, x0, y0, toFlood, color) {
+    const tumpukan = [];
+    tumpukan.push({ x: x0, y: y0 });
+
+    const index_awal = 4 * (x0 + y0 * canvas.width);
+    const target_r = image_data.data[index_awal];
+    const target_g = image_data.data[index_awal + 1];
+    const target_b = image_data.data[index_awal + 2];
+
+    while (tumpukan.length > 0) {
+        const titik_sekarang = tumpukan.pop();
+        const index_sekarang = 4 * (titik_sekarang.x + titik_sekarang.y * canvas.width);
+
+        const r1 = image_data.data[index_sekarang];
+        const g1 = image_data.data[index_sekarang + 1];
+        const b1 = image_data.data[index_sekarang + 2];
+
+        if ((r1 === target_r) && (g1 === target_g) && (b1 === target_b)) {
+            image_data.data[index_sekarang] = color.r;
+            image_data.data[index_sekarang + 1] = color.g;
+            image_data.data[index_sekarang + 2] = color.b;
+            image_data.data[index_sekarang + 3] = 255;
+
+            tumpukan.push({ x: titik_sekarang.x + 1, y: titik_sekarang.y });
+            tumpukan.push({ x: titik_sekarang.x - 1, y: titik_sekarang.y });
+            tumpukan.push({ x: titik_sekarang.x, y: titik_sekarang.y + 1 });
+            tumpukan.push({ x: titik_sekarang.x, y: titik_sekarang.y - 1 });
         }
     }
+}
     
 lingkaran_warna(xc, yc, radius, color) {
     for (var theta = 0; theta < Math.PI*2; theta += 0.001){
