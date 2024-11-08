@@ -20,7 +20,8 @@ export class ImageLib {
         imageData.data[index + 3] = color.a;
     }
     
-    // untuk mengontrol curtainnya (sebagian pakai AI)
+    // untuk mengontrol curtainnya 
+    // menggunakan bantuan sebagian gpt, promtnya untuk scrolling
     controlCurtain() {
         this.canvas.addEventListener("mousedown", (e) => {
             this.isDragging = true;
@@ -41,6 +42,7 @@ export class ImageLib {
     }
 
     // fungsi untuk menggambar curtain (memakai bantuan GPT)
+    // menggunakan bantuan gpt, promtnya untuk membuat curtain
     drawCurtain() {
         // untuk menyembunyikan brightness curtail
         if (this.curtainHeight <= 0) {
