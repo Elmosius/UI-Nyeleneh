@@ -30,13 +30,13 @@ Tiga UI yang kami akan buat diantaranta:
   
   Cara Mengatur Kecerahan:
   
-  Dengan Horden Interaktif, brightness layar bisa dikendalikan hanya dengan menggeser tirai ke atas atau ke bawah. Semakin banyak horden ditarik ke bawah, semakin terang layar kamu akan tampak, seolah-olah cahaya baru saja muncul di balik tirai.
+  - Dengan Horden Interaktif, brightness layar bisa dikendalikan hanya dengan menggeser tirai ke atas atau ke bawah. Semakin banyak horden ditarik ke bawah, semakin terang layar kamu akan tampak, seolah-olah cahaya baru saja muncul di balik tirai.
   
-  Klik dan tarik horden dari bagian atas layar, lalu geser perlahan ke arah yang diinginkan untuk mengatur tingkat kecerahan.
+  - Klik dan tarik horden dari bagian atas layar, lalu geser perlahan ke arah yang diinginkan untuk mengatur tingkat kecerahan.
   
-  Setiap kali horden digerakkan, opacity brightness layar berubah bertahap, memberikan efek transisi lembut seperti membuka atau menutup jendela.
+  - Setiap kali horden digerakkan, opacity brightness layar berubah bertahap, memberikan efek transisi lembut seperti membuka atau menutup jendela.
   
-  Lepaskan horden untuk menetapkan level kecerahan. Geser lagi jika ingin menyesuaikan ulang.
+  - Lepaskan horden untuk menetapkan level kecerahan. Geser lagi jika ingin menyesuaikan ulang.
   
   Catatan: Geseran yang lebih panjang akan membuka lebih banyak cahaya, memungkinkan kamu mendapatkan tingkat brightness optimal untuk layar.
 
